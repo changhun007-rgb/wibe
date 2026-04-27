@@ -1,0 +1,11 @@
+name = "wibe"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "dist"
+
+# D1 database binding. After running:
+#   npx wrangler d1 create wibe-contacts
+# replace the placeholder database_id below with the real one.
+[[d1_databases]]
+binding = "DB"
+database_name = "wibe-contacts"
+database_id = "REPLACE_AFTER_D1_CREATE"

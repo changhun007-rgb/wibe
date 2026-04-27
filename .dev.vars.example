@@ -1,0 +1,6 @@
+# Copy to .dev.vars (gitignored) for local `wrangler pages dev` testing.
+# Production values are set in Cloudflare Pages dashboard → Settings → Environment variables.
+
+RESEND_API_KEY=re_your_key_here
+NOTIFICATION_EMAIL=jay73hun@gmail.com
+FROM_EMAIL=WIBE <onboarding@resend.dev>

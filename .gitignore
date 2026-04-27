@@ -1,0 +1,10 @@
+node_modules
+dist
+.wrangler
+.dev.vars
+.env
+.env.local
+*.log
+
+# Design bundle (reference only — not part of the deployed site)
+_design/
