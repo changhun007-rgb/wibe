@@ -25,7 +25,7 @@ export const onRequestPost = async ({ request, env }) => {
     return json({ error: '잘못된 요청 형식입니다.' }, 400);
   }
 
-  const { company, name, phone, email, country, product, message } = body || {};
+  const { company, name, phone, email, country, product, message, consent } = body || {};
 
   if (!company || !name || !email) {
     return json({ error: '회사명, 담당자명, 이메일은 필수입니다.' }, 400);
@@ -33,17 +33,22 @@ export const onRequestPost = async ({ request, env }) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return json({ error: '이메일 형식이 올바르지 않습니다.' }, 400);
   }
+  if (consent !== true) {
+    return json({ error: '개인정보 수집·이용에 동의해주세요.' }, 400);
+  }
   if (String(message || '').length > 5000) {
     return json({ error: '메시지가 너무 깁니다.' }, 400);
   }
 
+  const consentAt = new Date().toISOString();
+
   // 1. Persist to D1 first — data integrity is the priority.
   try {
     await env.DB.prepare(
-      `INSERT INTO contacts (company, name, phone, email, country, product, message)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`
+      `INSERT INTO contacts (company, name, phone, email, country, product, message, consent_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
     ).bind(
-      company, name, phone || '', email, country || '', product || '', message || ''
+      company, name, phone || '', email, country || '', product || '', message || '', consentAt
     ).run();
   } catch (err) {
     console.error('D1 insert failed:', err);

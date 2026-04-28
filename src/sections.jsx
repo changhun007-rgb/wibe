@@ -780,14 +780,21 @@ const Field = ({ label, children }) => (
 export const Contact = () => {
   const [form, setForm] = useState({
     company: '', name: '', phone: '', email: '', country: '일본', product: '', message: '',
+    consent: false,
   });
   const [status, setStatus] = useState('idle'); // idle | sending | success | error
   const [errorMsg, setErrorMsg] = useState('');
 
   const onChange = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+  const onChangeChecked = (k) => (e) => setForm({ ...form, [k]: e.target.checked });
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (!form.consent) {
+      setStatus('error');
+      setErrorMsg('개인정보 수집·이용에 동의해주세요.');
+      return;
+    }
     setStatus('sending');
     setErrorMsg('');
     try {
@@ -887,6 +894,32 @@ export const Contact = () => {
                 <textarea rows="4" style={{ ...inputStyle, resize: 'vertical', minHeight: 100 }} value={form.message} onChange={onChange('message')} placeholder="해외 진출에 관한 현재 상황과 궁금한 점을 적어주세요"/>
               </Field>
 
+              <label style={{
+                display: 'flex', alignItems: 'flex-start', gap: 10,
+                marginTop: 20, padding: '12px 14px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 8,
+                cursor: 'pointer',
+              }}>
+                <input
+                  type="checkbox"
+                  checked={form.consent}
+                  onChange={onChangeChecked('consent')}
+                  style={{
+                    marginTop: 3, width: 16, height: 16, flexShrink: 0,
+                    accentColor: COLORS.green, cursor: 'pointer',
+                  }}
+                />
+                <span style={{ fontSize: 13, lineHeight: 1.55, color: COLORS.textMutedBright }}>
+                  <b style={{ color: COLORS.textBase }}>(필수)</b> 개인정보 수집·이용에 동의합니다.
+                  {' '}
+                  <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{
+                    color: COLORS.green, textDecoration: 'underline', textUnderlineOffset: 2,
+                  }}>자세히 보기</a>
+                </span>
+              </label>
+
               {status === 'error' && (
                 <div style={{
                   marginTop: 16, padding: '12px 14px', borderRadius: 8,
@@ -897,16 +930,16 @@ export const Contact = () => {
               )}
 
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 24 }}>
-                <button type="submit" disabled={status === 'sending'} style={{
+                <button type="submit" disabled={status === 'sending' || !form.consent} style={{
                   background: COLORS.green, color: '#000', border: 0,
                   padding: '14px 32px', borderRadius: 9999,
                   fontSize: 14, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.4px',
-                  cursor: status === 'sending' ? 'not-allowed' : 'pointer',
+                  cursor: (status === 'sending' || !form.consent) ? 'not-allowed' : 'pointer',
                   flex: '1 1 auto',
-                  opacity: status === 'sending' ? 0.6 : 1,
+                  opacity: (status === 'sending' || !form.consent) ? 0.5 : 1,
                   transition: 'transform 150ms, opacity 150ms',
                 }}
-                onMouseEnter={(e) => { if (status !== 'sending') e.currentTarget.style.transform = 'scale(1.02)'; }}
+                onMouseEnter={(e) => { if (status !== 'sending' && form.consent) e.currentTarget.style.transform = 'scale(1.02)'; }}
                 onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 >{status === 'sending' ? '전송 중...' : '상담 문의하기'}</button>
               </div>
@@ -957,6 +990,7 @@ export const Footer = () => (
           <a href="#contact" style={{ color: COLORS.textMuted }}>문의하기</a>
           <a href="#service" style={{ color: COLORS.textMuted }}>서비스</a>
           <a href="#process" style={{ color: COLORS.textMuted }}>진행방식</a>
+          <a href="/privacy" style={{ color: COLORS.textBase, fontWeight: 600 }}>개인정보 처리방침</a>
         </div>
       </div>
     </div>
