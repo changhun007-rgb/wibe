@@ -133,10 +133,69 @@ export const Nav = () => {
 };
 
 // ─── HERO ────────────────────────────────────────────
-const HeroVisual = () => {
+
+// Background constellation — subtle dotted/connected mesh that suggests a
+// global network. Positions are deterministic so it doesn't shift on render.
+const CONSTELLATION_DOTS = [
+  { x: 80, y: 60, d: 0 }, { x: 220, y: 140, d: 0.6 }, { x: 380, y: 80, d: 1.2 },
+  { x: 510, y: 200, d: 0.3 }, { x: 670, y: 110, d: 1.7 }, { x: 800, y: 180, d: 0.9 },
+  { x: 920, y: 70, d: 1.4 }, { x: 110, y: 290, d: 2.0 }, { x: 280, y: 340, d: 0.4 },
+  { x: 450, y: 380, d: 1.1 }, { x: 600, y: 310, d: 1.6 }, { x: 760, y: 360, d: 0.7 },
+  { x: 900, y: 290, d: 1.0 }, { x: 60, y: 460, d: 1.3 }, { x: 200, y: 510, d: 0.5 },
+  { x: 360, y: 480, d: 1.8 }, { x: 530, y: 540, d: 0.2 }, { x: 690, y: 470, d: 1.5 },
+  { x: 830, y: 520, d: 0.8 }, { x: 950, y: 430, d: 1.9 },
+];
+const CONSTELLATION_EDGES = [
+  [0, 1, 0], [1, 2, 2.5], [2, 4, 5.0], [4, 5, 1.5], [5, 6, 4.0],
+  [3, 8, 0.5], [8, 9, 3.5], [9, 10, 2.0], [10, 11, 5.5], [11, 12, 1.0],
+  [13, 14, 4.5], [14, 15, 2.0], [15, 16, 0.0], [16, 17, 3.0],
+  [17, 18, 5.0], [18, 19, 1.5], [3, 10, 6.0], [9, 16, 4.0],
+];
+
+const Constellation = ({ accent }) => (
+  <>
+    <svg
+      width="100%"
+      height="100%"
+      viewBox="0 0 1000 600"
+      preserveAspectRatio="xMidYMid slice"
+      style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1 }}
+    >
+      {CONSTELLATION_EDGES.map((e, i) => (
+        <line
+          key={`e${i}`}
+          x1={CONSTELLATION_DOTS[e[0]].x} y1={CONSTELLATION_DOTS[e[0]].y}
+          x2={CONSTELLATION_DOTS[e[1]].x} y2={CONSTELLATION_DOTS[e[1]].y}
+          stroke={accent} strokeWidth="0.6" strokeLinecap="round"
+          style={{ animation: `wibe-edge 8s ${e[2]}s ease-in-out infinite`, opacity: 0 }}
+        />
+      ))}
+      {CONSTELLATION_DOTS.map((p, i) => (
+        <circle
+          key={`d${i}`}
+          cx={p.x} cy={p.y} r="2"
+          fill={accent}
+          style={{ animation: `wibe-dot 4s ${p.d}s ease-in-out infinite` }}
+        />
+      ))}
+    </svg>
+    <style>{`
+      @keyframes wibe-dot { 0%, 100% { opacity: 0.22; } 50% { opacity: 0.7; } }
+      @keyframes wibe-edge { 0%, 100% { opacity: 0; } 45%, 55% { opacity: 0.28; } }
+    `}</style>
+  </>
+);
+
+// Auto-cycling sequence: emphasis word + active country card move together
+const HERO_SEQUENCE = [
+  { word: '일본', country: 'JP' },
+  { word: '태국', country: 'TH' },
+  { word: '미국', country: 'US' },
+];
+
+const HeroVisual = ({ activeCountry = 'JP' }) => {
   const t = useTweak();
   const accent = t.accentColor || COLORS.green;
-  const activeCountry = t.activeCountry || 'JP';
   return (
     <div style={{
       position: 'relative',
@@ -180,6 +239,7 @@ const HeroVisual = () => {
                 borderRadius: 10,
                 background: state === 'active' ? `${accent}1a` : 'rgba(255,255,255,0.03)',
                 border: state === 'active' ? `1px solid ${accent}` : '1px solid rgba(255,255,255,0.06)',
+                transition: 'background 500ms ease, border-color 500ms ease',
               }}>
                 <div style={{
                   width: 36, height: 36, borderRadius: 8,
@@ -221,8 +281,24 @@ const HeroVisual = () => {
 export const Hero = () => {
   const t = useTweak();
   const accent = t.accentColor || COLORS.green;
-  const emphasis = t.heroEmphasis || '일본';
   const titleScale = (t.titleScale || 100) / 100;
+
+  // Cycle through SEQUENCE every 3.5s with a 350ms cross-fade.
+  // Emphasis word in headline + active country card stay in sync.
+  const [idx, setIdx] = useState(0);
+  const [wordOpacity, setWordOpacity] = useState(1);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordOpacity(0);
+      setTimeout(() => {
+        setIdx((i) => (i + 1) % HERO_SEQUENCE.length);
+        setWordOpacity(1);
+      }, 350);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
+  const { word: emphasis, country: activeCountry } = HERO_SEQUENCE[idx];
+
   return (
     <section id="home" style={{
       position: 'relative',
@@ -236,6 +312,7 @@ export const Hero = () => {
       display: 'flex', alignItems: 'center',
       overflow: 'hidden',
     }}>
+      <Constellation accent={accent}/>
       <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', position: 'relative', zIndex: 2 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 1fr)', gap: 48, alignItems: 'center' }}
              className="hero-grid">
@@ -251,7 +328,12 @@ export const Hero = () => {
               textWrap: 'balance',
             }}>
               국내 시장을 넘어,<br/>
-              <span style={{ color: accent }}>{emphasis}</span>에서 새로운<br/>
+              <span style={{
+                color: accent,
+                display: 'inline-block',
+                opacity: wordOpacity,
+                transition: 'opacity 350ms ease',
+              }}>{emphasis}</span>에서 새로운<br/>
               성장 기회를 찾으세요
             </h1>
             <p style={{
@@ -296,7 +378,7 @@ export const Hero = () => {
             </div>
           </div>
 
-          {t.showCountryChain !== false && <HeroVisual/>}
+          {t.showCountryChain !== false && <HeroVisual activeCountry={activeCountry}/>}
         </div>
       </div>
     </section>
