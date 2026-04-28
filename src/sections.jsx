@@ -134,56 +134,85 @@ export const Nav = () => {
 
 // ─── HERO ────────────────────────────────────────────
 
-// Background constellation — subtle dotted/connected mesh that suggests a
-// global network. Positions are deterministic so it doesn't shift on render.
-const CONSTELLATION_DOTS = [
-  { x: 80, y: 60, d: 0 }, { x: 220, y: 140, d: 0.6 }, { x: 380, y: 80, d: 1.2 },
-  { x: 510, y: 200, d: 0.3 }, { x: 670, y: 110, d: 1.7 }, { x: 800, y: 180, d: 0.9 },
-  { x: 920, y: 70, d: 1.4 }, { x: 110, y: 290, d: 2.0 }, { x: 280, y: 340, d: 0.4 },
-  { x: 450, y: 380, d: 1.1 }, { x: 600, y: 310, d: 1.6 }, { x: 760, y: 360, d: 0.7 },
-  { x: 900, y: 290, d: 1.0 }, { x: 60, y: 460, d: 1.3 }, { x: 200, y: 510, d: 0.5 },
-  { x: 360, y: 480, d: 1.8 }, { x: 530, y: 540, d: 0.2 }, { x: 690, y: 470, d: 1.5 },
-  { x: 830, y: 520, d: 0.8 }, { x: 950, y: 430, d: 1.9 },
-];
-const CONSTELLATION_EDGES = [
-  [0, 1, 0], [1, 2, 2.5], [2, 4, 5.0], [4, 5, 1.5], [5, 6, 4.0],
-  [3, 8, 0.5], [8, 9, 3.5], [9, 10, 2.0], [10, 11, 5.5], [11, 12, 1.0],
-  [13, 14, 4.5], [14, 15, 2.0], [15, 16, 0.0], [16, 17, 3.0],
-  [17, 18, 5.0], [18, 19, 1.5], [3, 10, 6.0], [9, 16, 4.0],
+// Background flight-path arcs — a faint origin point at "Korea" with three
+// dashed arcs reaching toward "Japan", "Thailand", and "US". A small dot
+// continuously travels along each route (staggered) so the hero feels alive.
+// The arc to the currently active country is highlighted brighter.
+const KR = { x: 180, y: 380 };
+const ROUTES = [
+  { country: 'JP', dest: { x: 650, y: 230 }, d: 'M 180 380 Q 450 100 650 230', delay: 0,   dur: 4.5 },
+  { country: 'TH', dest: { x: 520, y: 510 }, d: 'M 180 380 Q 300 540 520 510', delay: 1.5, dur: 4.5 },
+  { country: 'US', dest: { x: 900, y: 130 }, d: 'M 180 380 Q 550  60 900 130', delay: 3.0, dur: 4.5 },
 ];
 
-const Constellation = ({ accent }) => (
-  <>
-    <svg
-      width="100%"
-      height="100%"
-      viewBox="0 0 1000 600"
-      preserveAspectRatio="xMidYMid slice"
-      style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1 }}
-    >
-      {CONSTELLATION_EDGES.map((e, i) => (
-        <line
-          key={`e${i}`}
-          x1={CONSTELLATION_DOTS[e[0]].x} y1={CONSTELLATION_DOTS[e[0]].y}
-          x2={CONSTELLATION_DOTS[e[1]].x} y2={CONSTELLATION_DOTS[e[1]].y}
-          stroke={accent} strokeWidth="0.6" strokeLinecap="round"
-          style={{ animation: `wibe-edge 8s ${e[2]}s ease-in-out infinite`, opacity: 0 }}
-        />
+const FlightPaths = ({ accent, activeCountry }) => (
+  <svg
+    width="100%"
+    height="100%"
+    viewBox="0 0 1000 600"
+    preserveAspectRatio="xMidYMid slice"
+    style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1 }}
+  >
+    <defs>
+      {ROUTES.map((r) => (
+        <path key={r.country} id={`wibe-route-${r.country}`} d={r.d} />
       ))}
-      {CONSTELLATION_DOTS.map((p, i) => (
-        <circle
-          key={`d${i}`}
-          cx={p.x} cy={p.y} r="2"
-          fill={accent}
-          style={{ animation: `wibe-dot 4s ${p.d}s ease-in-out infinite` }}
+    </defs>
+
+    {/* Static dashed arcs — brighter for the currently active country */}
+    {ROUTES.map((r) => (
+      <use
+        key={`arc-${r.country}`}
+        href={`#wibe-route-${r.country}`}
+        stroke={accent}
+        strokeWidth="1"
+        strokeLinecap="round"
+        fill="none"
+        strokeDasharray="3 6"
+        style={{
+          opacity: activeCountry === r.country ? 0.5 : 0.14,
+          transition: 'opacity 800ms cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
+      />
+    ))}
+
+    {/* Origin marker — Korea, with a slow pulse */}
+    <circle cx={KR.x} cy={KR.y} r="3.5" fill={accent} opacity="0.85">
+      <animate attributeName="r" values="3.5;5.5;3.5" dur="2.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.85;0.55;0.85" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+
+    {/* Destination markers — slightly larger / brighter when active */}
+    {ROUTES.map((r) => (
+      <circle
+        key={`end-${r.country}`}
+        cx={r.dest.x} cy={r.dest.y}
+        r={activeCountry === r.country ? 4 : 2.5}
+        fill={accent}
+        style={{
+          opacity: activeCountry === r.country ? 0.9 : 0.35,
+          transition: 'opacity 800ms cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
+      />
+    ))}
+
+    {/* Traveling dots — one per route, looping with staggered starts */}
+    {ROUTES.map((r) => (
+      <circle key={`dot-${r.country}`} r="3" fill={accent} opacity="0">
+        <animateMotion dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite">
+          <mpath href={`#wibe-route-${r.country}`}/>
+        </animateMotion>
+        <animate
+          attributeName="opacity"
+          values="0; 0.95; 0.95; 0"
+          keyTimes="0; 0.08; 0.88; 1"
+          dur={`${r.dur}s`}
+          begin={`${r.delay}s`}
+          repeatCount="indefinite"
         />
-      ))}
-    </svg>
-    <style>{`
-      @keyframes wibe-dot { 0%, 100% { opacity: 0.22; } 50% { opacity: 0.7; } }
-      @keyframes wibe-edge { 0%, 100% { opacity: 0; } 45%, 55% { opacity: 0.28; } }
-    `}</style>
-  </>
+      </circle>
+    ))}
+  </svg>
 );
 
 // Auto-cycling sequence: emphasis word + active country card move together
@@ -239,7 +268,7 @@ const HeroVisual = ({ activeCountry = 'JP' }) => {
                 borderRadius: 10,
                 background: state === 'active' ? `${accent}1a` : 'rgba(255,255,255,0.03)',
                 border: state === 'active' ? `1px solid ${accent}` : '1px solid rgba(255,255,255,0.06)',
-                transition: 'background 500ms ease, border-color 500ms ease',
+                transition: 'background 700ms cubic-bezier(0.4, 0, 0.2, 1), border-color 700ms cubic-bezier(0.4, 0, 0.2, 1)',
               }}>
                 <div style={{
                   width: 36, height: 36, borderRadius: 8,
@@ -283,8 +312,9 @@ export const Hero = () => {
   const accent = t.accentColor || COLORS.green;
   const titleScale = (t.titleScale || 100) / 100;
 
-  // Cycle through SEQUENCE every 3.5s with a 350ms cross-fade.
-  // Emphasis word in headline + active country card stay in sync.
+  // Cycle through SEQUENCE every 4.5s with a 500ms cross-fade.
+  // Emphasis word in headline + active country card + active flight arc
+  // all stay in sync.
   const [idx, setIdx] = useState(0);
   const [wordOpacity, setWordOpacity] = useState(1);
   useEffect(() => {
@@ -293,8 +323,8 @@ export const Hero = () => {
       setTimeout(() => {
         setIdx((i) => (i + 1) % HERO_SEQUENCE.length);
         setWordOpacity(1);
-      }, 350);
-    }, 3500);
+      }, 500);
+    }, 4500);
     return () => clearInterval(interval);
   }, []);
   const { word: emphasis, country: activeCountry } = HERO_SEQUENCE[idx];
@@ -312,7 +342,7 @@ export const Hero = () => {
       display: 'flex', alignItems: 'center',
       overflow: 'hidden',
     }}>
-      <Constellation accent={accent}/>
+      <FlightPaths accent={accent} activeCountry={activeCountry}/>
       <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', position: 'relative', zIndex: 2 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 1fr)', gap: 48, alignItems: 'center' }}
              className="hero-grid">
@@ -332,7 +362,7 @@ export const Hero = () => {
                 color: accent,
                 display: 'inline-block',
                 opacity: wordOpacity,
-                transition: 'opacity 350ms ease',
+                transition: 'opacity 500ms cubic-bezier(0.4, 0, 0.2, 1)',
               }}>{emphasis}</span>에서 새로운<br/>
               성장 기회를 찾으세요
             </h1>
