@@ -368,12 +368,12 @@ export const Hero = () => {
               textWrap: 'pretty',
             }}>
               우리는 일본 시장을 시작으로 한국 기업의 해외 진출을 돕는<br/>
-              <strong style={{ color: COLORS.textBase, fontWeight: 700 }}>실전형 온라인 마케팅 파트너</strong>입니다.
+              <strong style={{ color: COLORS.textBase, fontWeight: 700 }}>글로벌 온라인 마케팅 파트너</strong>입니다.
             </p>
 
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 32 }}>
               <PrimaryButton href="#contact" size="lg">{t.ctaPrimary || '상담 문의하기'}</PrimaryButton>
-              <SecondaryButton href="#why-japan" size="lg">{t.ctaSecondary || '해외진출 가능성 확인하기'}</SecondaryButton>
+              <SecondaryButton href="#service" size="lg">{t.ctaSecondary || '서비스 소개'}</SecondaryButton>
             </div>
 
             <div style={{
