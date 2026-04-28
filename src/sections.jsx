@@ -914,7 +914,7 @@ export const Contact = () => {
                 <span style={{ fontSize: 13, lineHeight: 1.55, color: COLORS.textMutedBright }}>
                   <b style={{ color: COLORS.textBase }}>(필수)</b> 개인정보 수집·이용에 동의합니다.
                   {' '}
-                  <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{
+                  <a href="/privacy/" target="_blank" rel="noopener noreferrer" style={{
                     color: COLORS.green, textDecoration: 'underline', textUnderlineOffset: 2,
                   }}>자세히 보기</a>
                 </span>
@@ -990,7 +990,7 @@ export const Footer = () => (
           <a href="#contact" style={{ color: COLORS.textMuted }}>문의하기</a>
           <a href="#service" style={{ color: COLORS.textMuted }}>서비스</a>
           <a href="#process" style={{ color: COLORS.textMuted }}>진행방식</a>
-          <a href="/privacy" style={{ color: COLORS.textBase, fontWeight: 600 }}>개인정보 처리방침</a>
+          <a href="/privacy/" style={{ color: COLORS.textBase, fontWeight: 600 }}>개인정보 처리방침</a>
         </div>
       </div>
     </div>
