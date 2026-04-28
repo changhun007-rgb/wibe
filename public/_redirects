@@ -1,1 +1,2 @@
-/* /index.html 200
+# MPA build emits dist/privacy/index.html, which Cloudflare Pages serves
+# automatically for /privacy and /privacy/. No SPA fallback needed.

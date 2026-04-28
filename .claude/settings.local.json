@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk -v RS=\";\" '/wf=Za/' /tmp/wibe.js)",
+      "Bash(awk -v RS=\";\" '/render.*StrictMode/' /tmp/wibe.js)",
+      "Bash(npm run *)"
+    ]
+  }
+}

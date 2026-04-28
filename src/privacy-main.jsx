@@ -1,10 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App.jsx';
+import PrivacyPolicy from './PrivacyPolicy.jsx';
 import './styles.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App/>
+    <PrivacyPolicy/>
   </StrictMode>,
 );
