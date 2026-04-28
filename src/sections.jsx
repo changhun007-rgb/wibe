@@ -329,7 +329,7 @@ export const Hero = () => {
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 1fr)', gap: 48, alignItems: 'center' }}
              className="hero-grid">
           <div>
-            <SectionLabel accent>Japan Marketing Partner for Korean Brands</SectionLabel>
+            <SectionLabel accent>Global Marketing Partner for Korean Brands</SectionLabel>
             <h1 style={{
               fontFamily: 'var(--font-title)',
               fontSize: `clamp(${40 * titleScale}px, ${6 * titleScale}vw, ${78 * titleScale}px)`,
@@ -373,7 +373,7 @@ export const Hero = () => {
 
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 32 }}>
               <PrimaryButton href="#contact" size="lg">{t.ctaPrimary || '상담 문의하기'}</PrimaryButton>
-              <SecondaryButton href="#service" size="lg">{t.ctaSecondary || '서비스 소개'}</SecondaryButton>
+              <SecondaryButton href="#service" size="lg">{t.ctaSecondary || 'WIBE 서비스 소개'}</SecondaryButton>
             </div>
 
             <div style={{

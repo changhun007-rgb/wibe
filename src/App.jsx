@@ -17,7 +17,7 @@ const DEFAULTS = {
   uppercaseCTA: true,
   showSectionLabels: true,
   ctaPrimary: '상담 문의하기',
-  ctaSecondary: '서비스 소개',
+  ctaSecondary: 'WIBE 서비스 소개',
   _tone: { base: '#121212', alt: '#0e0e0e', surface: '#181818', text: '#ffffff' },
 };
 
