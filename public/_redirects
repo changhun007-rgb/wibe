@@ -1,5 +1,2 @@
-# Force the Facebook domain-verification file to be served at the exact .html
-# URL Facebook fetches, with 200 status — overriding Cloudflare Pages' default
-# 308 redirect that strips the .html extension. Without this rule the verifier
-# sees a redirect chain instead of the token content.
-/223kfftjdyga5em0z01a3ayo3qwzxa.html /223kfftjdyga5em0z01a3ayo3qwzxa.html 200
+# MPA build emits dist/privacy/index.html, which Cloudflare Pages serves
+# automatically for /privacy and /privacy/. No SPA fallback needed.
