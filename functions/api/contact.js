@@ -1,10 +1,16 @@
-// POST /api/contact — receives inquiry form, stores in D1, emails notification via Resend.
+// POST /api/contact — receives inquiry form, stores in D1, emails notification via Resend,
+// and forwards a Lead event to Meta Conversions API for ad optimization.
 //
-// Bindings expected (configured in Cloudflare Pages dashboard or wrangler.toml):
+// Bindings expected (configured in Cloudflare Pages dashboard):
 //   env.DB                  — D1 database, table `contacts`
 //   env.RESEND_API_KEY      — Resend API key
 //   env.NOTIFICATION_EMAIL  — recipient for inquiry alerts (e.g. jay73hun@gmail.com)
 //   env.FROM_EMAIL          — sender, e.g. "WIBE <onboarding@resend.dev>" until domain verified
+//   env.META_CAPI_TOKEN     — Meta Conversions API access token (secret)
+//   env.META_TEST_EVENT_CODE — optional, e.g. "TEST12345" to route events to Test Events tab
+
+const META_PIXEL_ID = '486339350897247';
+const META_API_VERSION = 'v19.0';
 
 const json = (data, status = 200) =>
   new Response(JSON.stringify(data), {
@@ -17,6 +23,24 @@ const escape = (s) =>
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
+// Hash a normalized string with SHA-256, return lowercase hex.
+// Meta requires user PII (email, phone, name) to be SHA-256 hashed for CAPI.
+async function sha256Hex(input) {
+  const buf = await crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(String(input).trim().toLowerCase())
+  );
+  return Array.from(new Uint8Array(buf))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+const readCookie = (cookieHeader, name) => {
+  if (!cookieHeader) return undefined;
+  const match = cookieHeader.match(new RegExp(`(?:^|; )${name}=([^;]+)`));
+  return match ? decodeURIComponent(match[1]) : undefined;
+};
+
 export const onRequestPost = async ({ request, env }) => {
   let body;
   try {
@@ -25,7 +49,7 @@ export const onRequestPost = async ({ request, env }) => {
     return json({ error: '잘못된 요청 형식입니다.' }, 400);
   }
 
-  const { company, name, phone, email, country, product, message, consent } = body || {};
+  const { company, name, phone, email, country, product, message, consent, event_id } = body || {};
 
   if (!company || !name || !email) {
     return json({ error: '회사명, 담당자명, 이메일은 필수입니다.' }, 400);
@@ -100,6 +124,63 @@ export const onRequestPost = async ({ request, env }) => {
     }
   } else {
     console.warn('RESEND_API_KEY or NOTIFICATION_EMAIL not set — skipping email');
+  }
+
+  // 3. Forward a Lead event to Meta Conversions API (best-effort).
+  //    The same event_id is fired client-side by the Pixel, so Meta dedups.
+  if (env.META_CAPI_TOKEN) {
+    try {
+      const cookies = request.headers.get('cookie') || '';
+      const fbc = readCookie(cookies, '_fbc');
+      const fbp = readCookie(cookies, '_fbp');
+      const ip =
+        request.headers.get('cf-connecting-ip') ||
+        (request.headers.get('x-forwarded-for') || '').split(',')[0].trim() ||
+        '';
+      const userAgent = request.headers.get('user-agent') || '';
+      const referer = request.headers.get('referer') || '';
+
+      const phoneDigits = String(phone || '').replace(/\D/g, '');
+      const userData = {
+        em: [await sha256Hex(email)],
+        client_ip_address: ip,
+        client_user_agent: userAgent,
+      };
+      if (phoneDigits) userData.ph = [await sha256Hex(phoneDigits)];
+      if (fbc) userData.fbc = fbc;
+      if (fbp) userData.fbp = fbp;
+
+      const payload = {
+        data: [
+          {
+            event_name: 'Lead',
+            event_time: Math.floor(Date.now() / 1000),
+            event_id: event_id || crypto.randomUUID(),
+            event_source_url: referer || undefined,
+            action_source: 'website',
+            user_data: userData,
+          },
+        ],
+      };
+      if (env.META_TEST_EVENT_CODE) {
+        payload.test_event_code = env.META_TEST_EVENT_CODE;
+      }
+
+      const capiUrl = `https://graph.facebook.com/${META_API_VERSION}/${META_PIXEL_ID}/events?access_token=${encodeURIComponent(env.META_CAPI_TOKEN)}`;
+      const r = await fetch(capiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!r.ok) {
+        const errText = await r.text();
+        console.error('Meta CAPI failed:', r.status, errText);
+      }
+    } catch (err) {
+      console.error('Meta CAPI exception:', err);
+    }
+  } else {
+    console.warn('META_CAPI_TOKEN not set — skipping Meta CAPI');
   }
 
   return json({ ok: true });

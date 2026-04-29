@@ -891,16 +891,30 @@ export const Contact = () => {
     }
     setStatus('sending');
     setErrorMsg('');
+
+    // Generate a shared event id so the Pixel (browser) and CAPI (server)
+    // events for this submission can be deduplicated by Meta.
+    const eventId =
+      (typeof crypto !== 'undefined' && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, event_id: eventId }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || `요청 실패 (${res.status})`);
       }
+
+      // Fire client-side Lead event with the same event_id for dedup.
+      if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+        window.fbq('track', 'Lead', {}, { eventID: eventId });
+      }
+
       setStatus('success');
     } catch (err) {
       setStatus('error');
