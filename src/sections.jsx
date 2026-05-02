@@ -158,35 +158,35 @@ const FloatingOrbs = ({ accent }) => (
         width: 60vw; height: 60vw; max-width: 720px; max-height: 720px;
         top: -22%; left: -18%;
         background: radial-gradient(circle, ${accent}55 0%, ${accent}1a 35%, transparent 65%);
-        animation: wibe-orb-drift-1 38s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        animation: wibe-orb-drift-1 22s cubic-bezier(0.45, 0, 0.55, 1) infinite;
       }
       .wibe-orb-2 {
         width: 52vw; height: 52vw; max-width: 620px; max-height: 620px;
         top: 30%; right: -18%;
         background: radial-gradient(circle, rgba(243,114,127,0.42) 0%, rgba(243,114,127,0.12) 35%, transparent 65%);
-        animation: wibe-orb-drift-2 44s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-        animation-delay: -7s;
+        animation: wibe-orb-drift-2 26s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        animation-delay: -4s;
       }
       .wibe-orb-3 {
         width: 46vw; height: 46vw; max-width: 560px; max-height: 560px;
         bottom: -22%; left: 22%;
         background: radial-gradient(circle, rgba(245,179,71,0.35) 0%, rgba(245,179,71,0.10) 35%, transparent 65%);
-        animation: wibe-orb-drift-3 50s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-        animation-delay: -14s;
+        animation: wibe-orb-drift-3 30s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        animation-delay: -9s;
       }
       .wibe-orb-4 {
         width: 42vw; height: 42vw; max-width: 520px; max-height: 520px;
         top: -8%; right: 18%;
         background: radial-gradient(circle, rgba(83,108,194,0.32) 0%, rgba(83,108,194,0.08) 35%, transparent 65%);
-        animation: wibe-orb-drift-4 32s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-        animation-delay: -10s;
+        animation: wibe-orb-drift-4 18s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        animation-delay: -6s;
       }
       .wibe-orb-5 {
         width: 38vw; height: 38vw; max-width: 460px; max-height: 460px;
         bottom: 18%; left: -8%;
         background: radial-gradient(circle, ${accent}3d 0%, ${accent}10 35%, transparent 65%);
-        animation: wibe-orb-drift-5 40s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-        animation-delay: -20s;
+        animation: wibe-orb-drift-5 24s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        animation-delay: -12s;
       }
       @keyframes wibe-orb-drift-1 {
         0%, 100% { transform: translate3d(0, 0, 0); }
