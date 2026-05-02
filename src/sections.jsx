@@ -305,7 +305,17 @@ const HeroVisual = ({ activeCountry = 'JP' }) => {
         @keyframes bar { 0%{transform:scaleY(0.4);} 100%{transform:scaleY(1);} }
         @media (max-width: 900px) {
           .hero-grid { grid-template-columns: 1fr !important; }
-          .hero-visual { max-width: 380px; margin-top: 24px; }
+          .hero-visual {
+            max-width: 380px;
+            margin-top: 24px;
+            aspect-ratio: auto !important;
+          }
+          .hero-visual-card {
+            position: relative !important;
+            inset: auto !important;
+            gap: 24px !important;
+            justify-content: flex-start !important;
+          }
         }
       `}</style>
     </div>
