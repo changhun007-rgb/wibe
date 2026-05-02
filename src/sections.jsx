@@ -238,7 +238,7 @@ const HeroVisual = ({ activeCountry = 'JP' }) => {
       width: '100%',
       margin: '0 auto',
     }} className="hero-visual">
-      <div style={{
+      <div className="hero-visual-card" style={{
         position: 'absolute', inset: 0,
         borderRadius: 16,
         background: `
