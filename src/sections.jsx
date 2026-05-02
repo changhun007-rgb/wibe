@@ -134,67 +134,90 @@ export const Nav = () => {
 
 // ─── HERO ────────────────────────────────────────────
 
-// Background constellation — subtle dotted/connected mesh suggesting a
-// global network. Tuned to be a quiet ambient texture, not an attention
-// grabber: low opacity, slow gradual pulse, sine-eased so it never
-// flickers or jumps.
-const CONSTELLATION_DOTS = [
-  { x: 80, y: 60, d: 0 }, { x: 220, y: 140, d: 0.9 }, { x: 380, y: 80, d: 1.8 },
-  { x: 510, y: 200, d: 0.4 }, { x: 670, y: 110, d: 2.5 }, { x: 800, y: 180, d: 1.3 },
-  { x: 920, y: 70, d: 2.1 }, { x: 110, y: 290, d: 3.0 }, { x: 280, y: 340, d: 0.6 },
-  { x: 450, y: 380, d: 1.6 }, { x: 600, y: 310, d: 2.4 }, { x: 760, y: 360, d: 1.0 },
-  { x: 900, y: 290, d: 1.5 }, { x: 60, y: 460, d: 1.9 }, { x: 200, y: 510, d: 0.7 },
-  { x: 360, y: 480, d: 2.7 }, { x: 530, y: 540, d: 0.3 }, { x: 690, y: 470, d: 2.2 },
-  { x: 830, y: 520, d: 1.2 }, { x: 950, y: 430, d: 2.8 },
-];
-const CONSTELLATION_EDGES = [
-  [0, 1, 0],    [1, 2, 4.0], [2, 4, 8.0],  [4, 5, 2.5],  [5, 6, 6.5],
-  [3, 8, 0.8],  [8, 9, 5.5], [9, 10, 3.2], [10, 11, 8.8],[11, 12, 1.6],
-  [13, 14, 7.0],[14, 15, 3.0],[15, 16, 0],  [16, 17, 4.8],
-  [17, 18, 8.2],[18, 19, 2.4],[3, 10, 9.5], [9, 16, 6.0],
-];
-
-const Constellation = ({ accent }) => (
-  <>
-    <svg
-      width="100%"
-      height="100%"
-      viewBox="0 0 1000 600"
-      preserveAspectRatio="xMidYMid slice"
-      style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1 }}
-    >
-      {CONSTELLATION_EDGES.map((e, i) => (
-        <line
-          key={`e${i}`}
-          x1={CONSTELLATION_DOTS[e[0]].x} y1={CONSTELLATION_DOTS[e[0]].y}
-          x2={CONSTELLATION_DOTS[e[1]].x} y2={CONSTELLATION_DOTS[e[1]].y}
-          stroke={accent} strokeWidth="0.5" strokeLinecap="round"
-          style={{
-            animation: `wibe-edge 14s ${e[2]}s cubic-bezier(0.45, 0, 0.55, 1) infinite`,
-            opacity: 0,
-          }}
-        />
-      ))}
-      {CONSTELLATION_DOTS.map((p, i) => (
-        <circle
-          key={`d${i}`}
-          cx={p.x} cy={p.y} r="1.6"
-          fill={accent}
-          style={{ animation: `wibe-dot 7s ${p.d}s cubic-bezier(0.45, 0, 0.55, 1) infinite` }}
-        />
-      ))}
-    </svg>
+// Background floating orbs — soft glowing color blobs that drift independently
+// across the hero. Mobile-friendly (no fine details) and GPU-accelerated via
+// CSS transforms. Color palette stays warm so it complements the orange brand
+// instead of competing with the foreground.
+const FloatingOrbs = ({ accent }) => (
+  <div style={{
+    position: 'absolute', inset: 0,
+    overflow: 'hidden', pointerEvents: 'none', zIndex: 1,
+  }}>
+    <div className="wibe-orb wibe-orb-1"/>
+    <div className="wibe-orb wibe-orb-2"/>
+    <div className="wibe-orb wibe-orb-3"/>
+    <div className="wibe-orb wibe-orb-4"/>
+    <div className="wibe-orb wibe-orb-5"/>
     <style>{`
-      @keyframes wibe-dot {
-        0%, 100% { opacity: 0.08; }
-        50%      { opacity: 0.28; }
+      .wibe-orb {
+        position: absolute;
+        border-radius: 50%;
+        will-change: transform;
       }
-      @keyframes wibe-edge {
-        0%, 100% { opacity: 0; }
-        45%, 55% { opacity: 0.10; }
+      .wibe-orb-1 {
+        width: 60vw; height: 60vw; max-width: 720px; max-height: 720px;
+        top: -22%; left: -18%;
+        background: radial-gradient(circle, ${accent}55 0%, ${accent}1a 35%, transparent 65%);
+        animation: wibe-orb-drift-1 38s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+      }
+      .wibe-orb-2 {
+        width: 52vw; height: 52vw; max-width: 620px; max-height: 620px;
+        top: 30%; right: -18%;
+        background: radial-gradient(circle, rgba(243,114,127,0.42) 0%, rgba(243,114,127,0.12) 35%, transparent 65%);
+        animation: wibe-orb-drift-2 44s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        animation-delay: -7s;
+      }
+      .wibe-orb-3 {
+        width: 46vw; height: 46vw; max-width: 560px; max-height: 560px;
+        bottom: -22%; left: 22%;
+        background: radial-gradient(circle, rgba(245,179,71,0.35) 0%, rgba(245,179,71,0.10) 35%, transparent 65%);
+        animation: wibe-orb-drift-3 50s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        animation-delay: -14s;
+      }
+      .wibe-orb-4 {
+        width: 42vw; height: 42vw; max-width: 520px; max-height: 520px;
+        top: -8%; right: 18%;
+        background: radial-gradient(circle, rgba(83,108,194,0.32) 0%, rgba(83,108,194,0.08) 35%, transparent 65%);
+        animation: wibe-orb-drift-4 32s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        animation-delay: -10s;
+      }
+      .wibe-orb-5 {
+        width: 38vw; height: 38vw; max-width: 460px; max-height: 460px;
+        bottom: 18%; left: -8%;
+        background: radial-gradient(circle, ${accent}3d 0%, ${accent}10 35%, transparent 65%);
+        animation: wibe-orb-drift-5 40s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        animation-delay: -20s;
+      }
+      @keyframes wibe-orb-drift-1 {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        25%      { transform: translate3d(12vw, 8vh, 0); }
+        50%      { transform: translate3d(22vw, 18vh, 0); }
+        75%      { transform: translate3d(8vw, 22vh, 0); }
+      }
+      @keyframes wibe-orb-drift-2 {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        33%      { transform: translate3d(-18vw, -12vh, 0); }
+        66%      { transform: translate3d(-8vw, -22vh, 0); }
+      }
+      @keyframes wibe-orb-drift-3 {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        40%      { transform: translate3d(18vw, -18vh, 0); }
+        70%      { transform: translate3d(-10vw, -8vh, 0); }
+      }
+      @keyframes wibe-orb-drift-4 {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        50%      { transform: translate3d(-22vw, 28vh, 0); }
+      }
+      @keyframes wibe-orb-drift-5 {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        45%      { transform: translate3d(14vw, -14vh, 0); }
+        80%      { transform: translate3d(22vw, 8vh, 0); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .wibe-orb { animation: none !important; }
       }
     `}</style>
-  </>
+  </div>
 );
 
 // Auto-cycling sequence: emphasis word + active country card move together
@@ -324,7 +347,7 @@ export const Hero = () => {
       display: 'flex', alignItems: 'center',
       overflow: 'hidden',
     }}>
-      <Constellation accent={accent}/>
+      <FloatingOrbs accent={accent}/>
       <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', position: 'relative', zIndex: 2 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 1fr)', gap: 48, alignItems: 'center' }}
              className="hero-grid">
