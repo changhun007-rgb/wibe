@@ -220,6 +220,71 @@ const FloatingOrbs = ({ accent }) => (
   </div>
 );
 
+// Slowly rotating wireframe globe — sits as a faded backdrop behind the
+// country chain card, reinforcing the "global expansion" metaphor.
+// Built as a 2D SVG: outer circle + horizontal ellipses for latitudes (static)
+// + four vertical ellipses for meridians animated with a scaleX cycle that
+// passes through 0 (edge-on) so the meridians read as a sphere rotating
+// around its vertical axis.
+const RotatingGlobe = ({ accent }) => (
+  <div className="wibe-globe">
+    <svg viewBox="0 0 200 200" fill="none" stroke={accent} strokeWidth="0.5"
+      style={{ width: '100%', height: '100%' }}>
+      {/* Sphere outline */}
+      <circle cx="100" cy="100" r="98" />
+      {/* Latitude lines — static, all share equator radius for that "stretched" sphere look */}
+      <ellipse cx="100" cy="100" rx="98" ry="22" opacity="0.55" />
+      <ellipse cx="100" cy="100" rx="98" ry="52" opacity="0.55" />
+      <ellipse cx="100" cy="100" rx="98" ry="80" opacity="0.55" />
+      {/* Meridian lines — animated. Four overlapping ellipses with staggered
+          start times so the sphere reads as continuously rotating. */}
+      <ellipse cx="100" cy="100" rx="98" ry="98" className="wibe-meridian"/>
+      <ellipse cx="100" cy="100" rx="98" ry="98" className="wibe-meridian wibe-meridian-2"/>
+      <ellipse cx="100" cy="100" rx="98" ry="98" className="wibe-meridian wibe-meridian-3"/>
+      <ellipse cx="100" cy="100" rx="98" ry="98" className="wibe-meridian wibe-meridian-4"/>
+    </svg>
+    <style>{`
+      .wibe-globe {
+        position: absolute;
+        top: 50%;
+        right: 6%;
+        transform: translateY(-50%);
+        width: min(560px, 56vw);
+        aspect-ratio: 1;
+        pointer-events: none;
+        opacity: 0.16;
+        z-index: 1;
+      }
+      .wibe-meridian {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: wibe-globe-spin 26s linear infinite;
+      }
+      .wibe-meridian-2 { animation-delay: -6.5s; }
+      .wibe-meridian-3 { animation-delay: -13s; }
+      .wibe-meridian-4 { animation-delay: -19.5s; }
+      @keyframes wibe-globe-spin {
+        0%   { transform: scaleX(1); }
+        25%  { transform: scaleX(0); }
+        50%  { transform: scaleX(-1); }
+        75%  { transform: scaleX(0); }
+        100% { transform: scaleX(1); }
+      }
+      @media (max-width: 900px) {
+        .wibe-globe {
+          right: 50%;
+          transform: translate(50%, -50%);
+          width: min(420px, 80vw);
+          opacity: 0.10;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .wibe-meridian { animation: none !important; }
+      }
+    `}</style>
+  </div>
+);
+
 // Auto-cycling sequence: emphasis word + active country card move together
 const HERO_SEQUENCE = [
   { word: '일본', country: 'JP' },
@@ -358,6 +423,7 @@ export const Hero = () => {
       overflow: 'hidden',
     }}>
       <FloatingOrbs accent={accent}/>
+      <RotatingGlobe accent={accent}/>
       <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', position: 'relative', zIndex: 2 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 1fr)', gap: 48, alignItems: 'center' }}
              className="hero-grid">
