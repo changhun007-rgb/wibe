@@ -922,6 +922,21 @@ export const Contact = () => {
       setErrorMsg('개인정보 수집·이용에 동의해주세요.');
       return;
     }
+
+    // Google Ads conversion — fired on submit click (after HTML5 validation
+    // passes and consent is given) so the count reflects real submission
+    // attempts even if the server call later fails. Independent of the
+    // backend, so it stays robust under network issues. User explicitly
+    // wanted "click-time" tracking; the small over-count is acceptable
+    // as audience-optimization signal.
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-18157092617/S6huCMHUvKscEIn-_NFD',
+        value: 1.0,
+        currency: 'KRW',
+      });
+    }
+
     setStatus('sending');
     setErrorMsg('');
 
@@ -943,19 +958,13 @@ export const Contact = () => {
         throw new Error(data.error || `요청 실패 (${res.status})`);
       }
 
-      // Fire client-side Lead event with the same event_id for dedup.
+      // Fire client-side Meta Lead event with the same event_id so it
+      // dedupes with the CAPI-side Lead the server is sending in parallel.
+      // Stays on the success branch (not the click branch) because the
+      // server-side CAPI also only fires on success — moving Pixel earlier
+      // would break dedup.
       if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
         window.fbq('track', 'Lead', {}, { eventID: eventId });
-      }
-
-      // Google Ads conversion — fired only on successful submission so the
-      // count matches actual leads, not raw button clicks.
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        window.gtag('event', 'conversion', {
-          send_to: 'AW-18157092617/S6huCMHUvKscEIn-_NFD',
-          value: 1.0,
-          currency: 'KRW',
-        });
       }
 
       setStatus('success');
