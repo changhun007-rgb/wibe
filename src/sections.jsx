@@ -948,6 +948,16 @@ export const Contact = () => {
         window.fbq('track', 'Lead', {}, { eventID: eventId });
       }
 
+      // Google Ads conversion — fired only on successful submission so the
+      // count matches actual leads, not raw button clicks.
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-18157092617/S6huCMHUvKscEIn-_NFD',
+          value: 1.0,
+          currency: 'KRW',
+        });
+      }
+
       setStatus('success');
     } catch (err) {
       setStatus('error');
