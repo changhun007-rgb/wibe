@@ -6,10 +6,10 @@ export default function ContactPage() {
     <Layout>
       <PageHero
         eyebrow="Contact"
-        title="해외 진출, 어디서부터 시작해야 할지 고민이라면"
-        sub="현재 제품과 서비스 상황, 목표 시장, 예산 등을 함께 짚어드립니다. 영업일 기준 2일 이내 회신드리겠습니다."
+        title="함께 시작하시겠어요?"
+        sub="간단한 회사·제품 정보와 현재 고민을 적어주시면, 영업일 기준 2일 이내 회신드리겠습니다."
       />
-      <Contact/>
+      <Contact py={80}/>
     </Layout>
   );
 }

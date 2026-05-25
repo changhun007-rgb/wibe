@@ -1179,55 +1179,45 @@ export const Contact = ({ py }) => {
 };
 
 // ─── PAGE HERO (sub-pages) ────────────────────────
-// Short hero banner used at the top of /about, /services, /global, /contact.
-// Smaller than the home Hero — just sets the topic and primes the page.
-export const PageHero = ({ eyebrow, title, sub }) => {
-  const t = useTweak();
-  const accent = t.accentColor || COLORS.green;
-  return (
-    <section style={{
-      paddingTop: 'clamp(120px, 18vh, 200px)',
-      paddingBottom: 'clamp(56px, 10vh, 100px)',
-      paddingLeft: 'clamp(20px, 5vw, 64px)',
-      paddingRight: 'clamp(20px, 5vw, 64px)',
-      background: `
-        radial-gradient(circle at 25% 35%, ${accent}1a, transparent 55%),
-        radial-gradient(circle at 80% 60%, rgba(64,196,216,0.10), transparent 55%),
-        linear-gradient(180deg, #1a1a1a 0%, #121212 80%)
-      `,
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
-      <div style={{
-        maxWidth: 1200, margin: '0 auto',
-        position: 'relative', zIndex: 2,
-      }}>
-        {eyebrow && <SectionLabel accent>{eyebrow}</SectionLabel>}
-        <h1 style={{
-          fontFamily: 'var(--font-title)',
-          fontSize: 'clamp(34px, 5.5vw, 60px)',
-          fontWeight: 800,
-          lineHeight: 1.12,
-          letterSpacing: '-0.025em',
-          color: COLORS.textBase,
-          margin: '0 0 20px 0',
-          textWrap: 'balance',
-          maxWidth: 880,
-        }}>{title}</h1>
-        {sub && (
-          <p style={{
-            fontSize: 'clamp(15px, 1.5vw, 19px)',
-            lineHeight: 1.7,
-            color: COLORS.textMutedBright,
-            margin: 0,
-            maxWidth: 700,
-            textWrap: 'pretty',
-          }}>{sub}</p>
-        )}
-      </div>
-    </section>
-  );
-};
+// Compact "you're on this page" banner. Transparent background so it sits
+// on the same continuous canvas as the rest of the page (no boxed look).
+// Provides the page-level h1; section headings below stay as h2 so each
+// sub-page has exactly one h1 (good for SEO).
+export const PageHero = ({ eyebrow, title, sub }) => (
+  <section style={{
+    paddingTop: 'clamp(120px, 18vh, 180px)',
+    paddingBottom: 'clamp(32px, 6vh, 64px)',
+    paddingLeft: 'clamp(20px, 5vw, 64px)',
+    paddingRight: 'clamp(20px, 5vw, 64px)',
+    background: 'transparent',
+    position: 'relative',
+  }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      {eyebrow && <SectionLabel accent>{eyebrow}</SectionLabel>}
+      <h1 style={{
+        fontFamily: 'var(--font-title)',
+        fontSize: 'clamp(32px, 5vw, 54px)',
+        fontWeight: 800,
+        lineHeight: 1.12,
+        letterSpacing: '-0.025em',
+        color: COLORS.textBase,
+        margin: '0 0 18px 0',
+        textWrap: 'balance',
+        maxWidth: 880,
+      }}>{title}</h1>
+      {sub && (
+        <p style={{
+          fontSize: 'clamp(15px, 1.4vw, 18px)',
+          lineHeight: 1.7,
+          color: COLORS.textMutedBright,
+          margin: 0,
+          maxWidth: 680,
+          textWrap: 'pretty',
+        }}>{sub}</p>
+      )}
+    </div>
+  </section>
+);
 
 // ─── PAGE CTA (sub-pages) ─────────────────────────
 // Closing CTA for sub-pages, links to /contact/.
