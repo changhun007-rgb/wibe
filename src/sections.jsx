@@ -132,7 +132,7 @@ export const Nav = () => {
 // across the hero. Mobile-friendly (no fine details) and GPU-accelerated via
 // CSS transforms. Color palette stays warm so it complements the orange brand
 // instead of competing with the foreground.
-const FloatingOrbs = ({ accent }) => (
+export const FloatingOrbs = ({ accent }) => (
   <div style={{
     position: 'absolute', inset: 0,
     overflow: 'hidden', pointerEvents: 'none', zIndex: 1,
@@ -225,23 +225,19 @@ export const Hero = () => {
   return (
     <section id="home" style={{
       position: 'relative',
-      minHeight: '100vh',
-      padding: '140px clamp(20px, 5vw, 64px) 100px',
-      // Bottom fades to transparent so the body's atmospheric background
-      // bleeds upward into the lower portion of the hero. This removes the
-      // hard line that would otherwise appear at the section boundary.
-      background: `
-        radial-gradient(circle at 20% 30%, ${accent}26, transparent 55%),
-        radial-gradient(circle at 80% 70%, rgba(64,196,216,0.14), transparent 50%),
-        linear-gradient(180deg, #1a1a1a 0%, rgba(18,18,18,0.6) 70%, transparent 100%)
-      `,
+      // No fixed 100vh anymore — page no longer feels like "slide 1/5".
+      // Just enough height to give the hero presence.
+      minHeight: 'clamp(560px, 80vh, 760px)',
+      padding: '140px clamp(20px, 5vw, 64px) 80px',
+      // Transparent: the body's atmospheric canvas (and the page-level
+      // FloatingOrbs in Layout) shows through. No internal background means
+      // no visible boundary where the hero ends.
+      background: 'transparent',
       display: 'flex', alignItems: 'center',
-      overflow: 'hidden',
     }}>
-      <FloatingOrbs accent={accent}/>
       <div style={{
         maxWidth: 900, margin: '0 auto', width: '100%',
-        position: 'relative', zIndex: 2,
+        position: 'relative', zIndex: 1,
         textAlign: 'center',
       }}>
         <SectionLabel accent>Marketing Partner for Korean Brands</SectionLabel>

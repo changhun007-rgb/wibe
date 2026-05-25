@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { TweakContext } from './components.jsx';
-import { Nav, Footer } from './sections.jsx';
+import { Nav, Footer, FloatingOrbs } from './sections.jsx';
 import './styles.css';
 
 // Shared brand/tone defaults. Every page wraps its content in this so the
@@ -20,17 +20,11 @@ const DEFAULTS = {
   _tone: { base: '#121212', alt: '#0e0e0e', surface: '#181818', text: '#ffffff' },
 };
 
-// Continuous full-page atmospheric background. Multiple soft radial gradients
-// in the brand palette create depth and "light source" cues, layered over a
-// subtle vertical tone gradient. Sections render on top of this transparently
-// so the whole page reads as one canvas instead of stacked slides.
-const PAGE_BACKGROUND = `
-  radial-gradient(ellipse 1200px 800px at 12% 6%,  rgba(29, 140, 198, 0.12),  transparent 60%),
-  radial-gradient(ellipse 1000px 700px at 88% 28%, rgba(64, 196, 216, 0.08),  transparent 60%),
-  radial-gradient(ellipse 1100px 800px at 25% 55%, rgba(29, 140, 198, 0.07),  transparent 60%),
-  radial-gradient(ellipse 1000px 700px at 80% 80%, rgba(64, 196, 216, 0.06),  transparent 60%),
-  linear-gradient(180deg, #181818 0%, #131313 30%, #0f0f0f 70%, #0a0a0a 100%)
-`;
+// Single continuous canvas: one gentle vertical tone with one big soft accent
+// glow at the top, applied to the body. Avoids the multi-radial layered look
+// that was making the boundary between hero and the next section visible.
+// FloatingOrbs are mounted at the document-level (not trapped inside Hero) so
+// the atmosphere flows through the entire scroll.
 
 export default function Layout({ children }) {
   useEffect(() => {
@@ -40,18 +34,29 @@ export default function Layout({ children }) {
     root.style.setProperty('--bg-alt', DEFAULTS._tone.alt);
     root.style.setProperty('--bg-surface', DEFAULTS._tone.surface);
     root.style.setProperty('--text-base', DEFAULTS._tone.text);
-    document.body.style.background = '#0a0a0a';
+    document.body.style.background = `
+      radial-gradient(ellipse 1400px 900px at 50% -10%, ${DEFAULTS.accentColor}1f, transparent 60%),
+      linear-gradient(180deg, #161616 0%, #111111 40%, #0c0c0c 100%)
+    `;
+    document.body.style.backgroundAttachment = 'fixed';
     document.body.style.color = DEFAULTS._tone.text;
   }, []);
 
   return (
     <TweakContext.Provider value={DEFAULTS}>
       <Nav/>
+      {/* Page-level orbs: float behind every section so the atmosphere flows
+          through the whole scroll, not just the hero. pointer-events: none and
+          z-index 0 keep them strictly decorative. */}
       <div style={{
-        position: 'relative',
-        background: PAGE_BACKGROUND,
-        backgroundAttachment: 'fixed',
+        position: 'fixed', inset: 0,
+        pointerEvents: 'none',
+        zIndex: 0,
+        overflow: 'hidden',
       }}>
+        <FloatingOrbs accent={DEFAULTS.accentColor}/>
+      </div>
+      <div style={{ position: 'relative', zIndex: 1 }}>
         {children}
       </div>
       <Footer/>
