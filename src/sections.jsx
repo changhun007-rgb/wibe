@@ -6,12 +6,15 @@ import {
 } from './components.jsx';
 
 // ─── NAV ────────────────────────────────────────────
+// Page-based nav (multi-page Vite build). "Active" is determined by the
+// current pathname rather than scroll position. The CTA button on the right
+// always points to /contact/.
 const NAV = [
-  { id: 'home',              label: 'HOME',       short: 'HOME' },
-  { id: 'philosophy',        label: '우리의 방식', short: '방식' },
-  { id: 'about',             label: '회사 소개',   short: '소개' },
-  { id: 'services-preview',  label: '서비스',     short: '서비스' },
-  { id: 'contact',           label: '문의하기',   short: '문의' },
+  { href: '/',          label: '홈',           short: '홈',     match: (p) => p === '/' || p === '' },
+  { href: '/about/',    label: '회사 소개',    short: '소개',   match: (p) => p.startsWith('/about') },
+  { href: '/services/', label: '서비스',       short: '서비스', match: (p) => p.startsWith('/services') },
+  { href: '/global/',   label: '글로벌 마케팅', short: '글로벌', match: (p) => p.startsWith('/global') },
+  { href: '/contact/',  label: '문의하기',     short: '문의',   match: (p) => p.startsWith('/contact') },
 ];
 
 export const Nav = () => {
@@ -20,30 +23,16 @@ export const Nav = () => {
   const brandName = t.brandName || 'WIBE';
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState('home');
+  const path = typeof window !== 'undefined' ? window.location.pathname : '/';
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 12);
-      const sections = NAV.map((n) => document.getElementById(n.id)).filter(Boolean);
-      const y = window.scrollY + 120;
-      let cur = 'home';
-      for (const s of sections) {
-        if (s.offsetTop <= y) cur = s.id;
-      }
-      setActive(cur);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleClick = (id) => (e) => {
-    e.preventDefault();
-    setOpen(false);
-    const el = document.getElementById(id);
-    if (el) window.scrollTo({ top: el.offsetTop - 64, behavior: 'smooth' });
-  };
+  const isActive = (item) => item.match(path);
 
   return (
     <header style={{
@@ -59,29 +48,33 @@ export const Nav = () => {
         padding: '14px clamp(20px, 5vw, 64px)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24,
       }}>
-        <a href="#home" onClick={handleClick('home')} style={{
+        <a href="/" style={{
           display: 'flex', alignItems: 'center', gap: 10,
           color: COLORS.textBase, fontWeight: 800, fontSize: 15, letterSpacing: '-0.01em',
+          textDecoration: 'none',
         }}>
           <BrandMark size={26}/>
           <span>{brandName.includes('.') ? (<>{brandName.split('.')[0]}<span style={{ color: accent }}>.</span>{brandName.split('.').slice(1).join('.')}</>) : brandName}</span>
         </a>
 
         <nav className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          {NAV.slice(1, -1).map((n) => (
-            <a key={n.id} href={`#${n.id}`} onClick={handleClick(n.id)} style={{
-              padding: '8px 12px',
-              fontSize: 13, fontWeight: active === n.id ? 700 : 500,
-              color: active === n.id ? COLORS.textBase : COLORS.textMuted,
-              transition: 'color 150ms',
-              cursor: 'pointer',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.color = COLORS.textBase}
-            onMouseLeave={(e) => e.currentTarget.style.color = active === n.id ? COLORS.textBase : COLORS.textMuted}
-            >{n.label}</a>
-          ))}
+          {NAV.slice(0, -1).map((n) => {
+            const active = isActive(n);
+            return (
+              <a key={n.href} href={n.href} style={{
+                padding: '8px 12px',
+                fontSize: 13, fontWeight: active ? 700 : 500,
+                color: active ? COLORS.textBase : COLORS.textMuted,
+                transition: 'color 150ms',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = COLORS.textBase}
+              onMouseLeave={(e) => e.currentTarget.style.color = active ? COLORS.textBase : COLORS.textMuted}
+              >{n.label}</a>
+            );
+          })}
           <div style={{ marginLeft: 8 }}>
-            <PrimaryButton href="#contact" onClick={handleClick('contact')}>문의하기</PrimaryButton>
+            <PrimaryButton href="/contact/">문의하기</PrimaryButton>
           </div>
         </nav>
 
@@ -105,16 +98,20 @@ export const Nav = () => {
           borderTop: '1px solid rgba(255,255,255,0.06)',
           padding: '8px clamp(20px, 5vw, 64px) 24px',
         }}>
-          {NAV.map((n) => (
-            <a key={n.id} href={`#${n.id}`} onClick={handleClick(n.id)} style={{
-              display: 'block', padding: '14px 4px',
-              fontSize: 16, fontWeight: 600,
-              color: active === n.id ? accent : COLORS.textBase,
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
-            }}>{n.short}</a>
-          ))}
+          {NAV.map((n) => {
+            const active = isActive(n);
+            return (
+              <a key={n.href} href={n.href} style={{
+                display: 'block', padding: '14px 4px',
+                fontSize: 16, fontWeight: 600,
+                color: active ? accent : COLORS.textBase,
+                borderBottom: '1px solid rgba(255,255,255,0.06)',
+                textDecoration: 'none',
+              }}>{n.short}</a>
+            );
+          })}
           <div style={{ marginTop: 16 }}>
-            <PrimaryButton href="#contact" onClick={handleClick('contact')}>상담 문의하기</PrimaryButton>
+            <PrimaryButton href="/contact/">상담 문의하기</PrimaryButton>
           </div>
         </div>
       )}
@@ -1178,6 +1175,150 @@ export const Contact = () => {
           .two-col { grid-template-columns: 1fr !important; gap: 32px !important; }
         }
       `}</style>
+    </Section>
+  );
+};
+
+// ─── PAGE HERO (sub-pages) ────────────────────────
+// Short hero banner used at the top of /about, /services, /global, /contact.
+// Smaller than the home Hero — just sets the topic and primes the page.
+export const PageHero = ({ eyebrow, title, sub }) => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  return (
+    <section style={{
+      paddingTop: 'clamp(120px, 18vh, 200px)',
+      paddingBottom: 'clamp(56px, 10vh, 100px)',
+      paddingLeft: 'clamp(20px, 5vw, 64px)',
+      paddingRight: 'clamp(20px, 5vw, 64px)',
+      background: `
+        radial-gradient(circle at 25% 35%, ${accent}1a, transparent 55%),
+        radial-gradient(circle at 80% 60%, rgba(64,196,216,0.10), transparent 55%),
+        linear-gradient(180deg, #1a1a1a 0%, #121212 80%)
+      `,
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      <div style={{
+        maxWidth: 1200, margin: '0 auto',
+        position: 'relative', zIndex: 2,
+      }}>
+        {eyebrow && <SectionLabel accent>{eyebrow}</SectionLabel>}
+        <h1 style={{
+          fontFamily: 'var(--font-title)',
+          fontSize: 'clamp(34px, 5.5vw, 60px)',
+          fontWeight: 800,
+          lineHeight: 1.12,
+          letterSpacing: '-0.025em',
+          color: COLORS.textBase,
+          margin: '0 0 20px 0',
+          textWrap: 'balance',
+          maxWidth: 880,
+        }}>{title}</h1>
+        {sub && (
+          <p style={{
+            fontSize: 'clamp(15px, 1.5vw, 19px)',
+            lineHeight: 1.7,
+            color: COLORS.textMutedBright,
+            margin: 0,
+            maxWidth: 700,
+            textWrap: 'pretty',
+          }}>{sub}</p>
+        )}
+      </div>
+    </section>
+  );
+};
+
+// ─── PAGE CTA (sub-pages) ─────────────────────────
+// Closing CTA for sub-pages, links to /contact/.
+export const PageCTA = ({ heading, sub }) => (
+  <Section bg="alt">
+    <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto' }}>
+      <SectionHeading>{heading || '더 자세히 알고 싶으시면'}</SectionHeading>
+      {sub && <Lead>{sub}</Lead>}
+      <div style={{ marginTop: 32, display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
+        <PrimaryButton href="/contact/" size="lg">상담 문의하기</PrimaryButton>
+        <SecondaryButton href="/services/" size="lg">서비스 보기</SecondaryButton>
+      </div>
+    </div>
+  </Section>
+);
+
+// ─── GLOBAL PHILOSOPHY (5 principles for /global) ─────────
+// Full 5-principle breakdown of how WIBE approaches global expansion.
+// Lives on /global because the user specifically asked the long-form
+// philosophy to be there, with the homepage staying minimal.
+export const GlobalPhilosophy = () => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+
+  const principles = [
+    {
+      num: '01',
+      title: '추측하지 않습니다, 경험합니다',
+      desc: '한국에서 일본 시장을 분석하지 않고, 일본 현지의 경험을 통해 접근합니다. 데이터로 보이지 않는 현지의 맥락은 직접 경험에서 옵니다.',
+    },
+    {
+      num: '02',
+      title: '작게 시작하고, 확인하고, 확장합니다',
+      desc: '처음부터 큰 비용으로 도박하지 않습니다. 시장 반응을 측정하고, 데이터로 검증된 단계에서만 다음 단계로 진행합니다.',
+    },
+    {
+      num: '03',
+      title: '번역이 아니라 현지화입니다',
+      desc: '같은 메시지를 다른 언어로 옮기는 것이 번역이라면, 현지 소비자에게 통하는 새 메시지를 만드는 것이 현지화입니다. 우리는 현지화를 합니다.',
+    },
+    {
+      num: '04',
+      title: '전략과 실행을 분리하지 않습니다',
+      desc: '실행 없는 전략은 보고서고, 전략 없는 실행은 광고비 낭비입니다. 설계부터 운영, 분석까지 한 흐름으로 함께합니다.',
+    },
+    {
+      num: '05',
+      title: '일본에서 멈추지 않습니다',
+      desc: '일본은 첫 번째 시장이지 마지막 시장이 아닙니다. 일본에서 검증한 방법론을 다음 시장(태국·미국·기타)으로 확장합니다.',
+    },
+  ];
+
+  return (
+    <Section id="global-philosophy">
+      <div style={{ textAlign: 'center', marginBottom: 56, maxWidth: 760, marginLeft: 'auto', marginRight: 'auto' }}>
+        <SectionLabel>Our Approach</SectionLabel>
+        <SectionHeading>해외 진출, WIBE의 다섯 가지 원칙</SectionHeading>
+        <Lead>
+          WIBE는 한국 브랜드의 해외 진출을 다음 다섯 가지 원칙으로 함께합니다.
+          모든 결정은 추측이 아닌 데이터와 현지 경험에서 출발합니다.
+        </Lead>
+      </div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: 16,
+      }}>
+        {principles.map((p) => (
+          <Card key={p.num} hover padding={28}>
+            <div style={{
+              fontFamily: 'var(--font-title)',
+              fontSize: 32, fontWeight: 800,
+              color: accent,
+              letterSpacing: '-0.02em',
+              marginBottom: 16,
+              lineHeight: 1,
+            }}>{p.num}</div>
+            <div style={{
+              fontSize: 17, fontWeight: 700,
+              color: COLORS.textBase,
+              marginBottom: 10,
+              lineHeight: 1.35,
+            }}>{p.title}</div>
+            <div style={{
+              fontSize: 14, color: COLORS.textMuted,
+              lineHeight: 1.65,
+            }}>{p.desc}</div>
+          </Card>
+        ))}
+      </div>
     </Section>
   );
 };
