@@ -227,10 +227,13 @@ export const Hero = () => {
       position: 'relative',
       minHeight: '100vh',
       padding: '140px clamp(20px, 5vw, 64px) 100px',
+      // Bottom fades to transparent so the body's atmospheric background
+      // bleeds upward into the lower portion of the hero. This removes the
+      // hard line that would otherwise appear at the section boundary.
       background: `
-        radial-gradient(circle at 20% 30%, ${accent}1f, transparent 55%),
-        radial-gradient(circle at 80% 70%, rgba(64,196,216,0.12), transparent 50%),
-        linear-gradient(180deg, #1a1a1a 0%, #121212 60%)
+        radial-gradient(circle at 20% 30%, ${accent}26, transparent 55%),
+        radial-gradient(circle at 80% 70%, rgba(64,196,216,0.14), transparent 50%),
+        linear-gradient(180deg, #1a1a1a 0%, rgba(18,18,18,0.6) 70%, transparent 100%)
       `,
       display: 'flex', alignItems: 'center',
       overflow: 'hidden',
@@ -280,7 +283,7 @@ export const Hero = () => {
 // shop framing can actually erode trust ("who covers if they're sick?") —
 // and keeps the page focused on building just enough credibility to earn a
 // meeting, not on closing the sale.
-export const About = () => {
+export const About = ({ py }) => {
   const t = useTweak();
   const accent = t.accentColor || COLORS.green;
   const stats = [
@@ -289,7 +292,7 @@ export const About = () => {
     { num: 'Google', label: 'Japan',         sub: '캠페인 전문가 출신' },
   ];
   return (
-    <Section id="about" bg="alt">
+    <Section id="about" py={py}>
       <div style={{ textAlign: 'center', maxWidth: 880, margin: '0 auto' }}>
         <SectionLabel accent>About WIBE</SectionLabel>
         <h2 style={{
@@ -364,11 +367,11 @@ export const About = () => {
 // ─── PHILOSOPHY (HOME) ─────────────────────────────
 // The philosophical heart of the homepage. Single statement, centered, big.
 // Full 5-principle breakdown lives in the dedicated Global Marketing page.
-export const Philosophy = () => {
+export const Philosophy = ({ py }) => {
   const t = useTweak();
   const accent = t.accentColor || COLORS.green;
   return (
-    <Section id="philosophy">
+    <Section id="philosophy" py={py}>
       <div style={{ textAlign: 'center', maxWidth: 880, margin: '0 auto' }}>
         <SectionLabel>Our Philosophy</SectionLabel>
         <h2 style={{
@@ -405,7 +408,7 @@ export const Philosophy = () => {
 // Three high-level service buckets, each linking out to its dedicated page.
 // Keeps the homepage minimal — detailed service breakdowns live on /services
 // and /global rather than being inlined here.
-export const ServicesPreview = () => {
+export const ServicesPreview = ({ py }) => {
   const t = useTweak();
   const accent = t.accentColor || COLORS.green;
 
@@ -431,7 +434,7 @@ export const ServicesPreview = () => {
   ];
 
   return (
-    <Section id="services-preview">
+    <Section id="services-preview" py={py}>
       <div style={{ textAlign: 'center', marginBottom: 56, maxWidth: 760, marginLeft: 'auto', marginRight: 'auto' }}>
         <SectionLabel>WIBE Services</SectionLabel>
         <SectionHeading>한국 브랜드의 마케팅,<br/>국내부터 글로벌까지</SectionHeading>
@@ -967,7 +970,7 @@ const Field = ({ label, children }) => (
   </label>
 );
 
-export const Contact = () => {
+export const Contact = ({ py }) => {
   const [form, setForm] = useState({
     company: '', name: '', phone: '', email: '', country: '일본', product: '', message: '',
     consent: false,
@@ -1052,7 +1055,7 @@ export const Contact = () => {
   };
 
   return (
-    <Section id="contact">
+    <Section id="contact" py={py}>
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.1fr)', gap: 56, alignItems: 'start' }} className="two-col">
         <div>
           <SectionLabel accent>Contact</SectionLabel>

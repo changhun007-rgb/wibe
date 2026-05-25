@@ -213,15 +213,21 @@ export const Highlight = ({ children }) => {
 
 export const Section = ({ id, children, bg, py }) => {
   const t = useTweak();
-  const tone = t._tone || { base: COLORS.base, alt: '#0e0e0e' };
   const padY = py != null ? py : (t.sectionPadding || 120);
-  const resolvedBg = bg === 'alt' ? tone.alt : (bg || tone.base);
+  // Sections default to transparent so the continuous body atmosphere
+  // (set by Layout) shows through — avoids the "stacked slides" feel.
+  // 'alt' is now a very subtle lightening overlay rather than a different
+  // opaque color, just enough to create rhythm without hard boundaries.
+  const resolvedBg = bg === 'alt'
+    ? 'rgba(255, 255, 255, 0.015)'
+    : (bg || 'transparent');
   return (
     <section id={id} style={{
       background: resolvedBg,
       padding: `${padY}px clamp(20px, 5vw, 64px)`,
+      position: 'relative',
     }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {children}
       </div>
     </section>

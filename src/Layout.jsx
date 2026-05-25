@@ -20,6 +20,18 @@ const DEFAULTS = {
   _tone: { base: '#121212', alt: '#0e0e0e', surface: '#181818', text: '#ffffff' },
 };
 
+// Continuous full-page atmospheric background. Multiple soft radial gradients
+// in the brand palette create depth and "light source" cues, layered over a
+// subtle vertical tone gradient. Sections render on top of this transparently
+// so the whole page reads as one canvas instead of stacked slides.
+const PAGE_BACKGROUND = `
+  radial-gradient(ellipse 1200px 800px at 12% 6%,  rgba(29, 140, 198, 0.12),  transparent 60%),
+  radial-gradient(ellipse 1000px 700px at 88% 28%, rgba(64, 196, 216, 0.08),  transparent 60%),
+  radial-gradient(ellipse 1100px 800px at 25% 55%, rgba(29, 140, 198, 0.07),  transparent 60%),
+  radial-gradient(ellipse 1000px 700px at 80% 80%, rgba(64, 196, 216, 0.06),  transparent 60%),
+  linear-gradient(180deg, #181818 0%, #131313 30%, #0f0f0f 70%, #0a0a0a 100%)
+`;
+
 export default function Layout({ children }) {
   useEffect(() => {
     const root = document.documentElement;
@@ -28,14 +40,20 @@ export default function Layout({ children }) {
     root.style.setProperty('--bg-alt', DEFAULTS._tone.alt);
     root.style.setProperty('--bg-surface', DEFAULTS._tone.surface);
     root.style.setProperty('--text-base', DEFAULTS._tone.text);
-    document.body.style.background = DEFAULTS._tone.base;
+    document.body.style.background = '#0a0a0a';
     document.body.style.color = DEFAULTS._tone.text;
   }, []);
 
   return (
     <TweakContext.Provider value={DEFAULTS}>
       <Nav/>
-      {children}
+      <div style={{
+        position: 'relative',
+        background: PAGE_BACKGROUND,
+        backgroundAttachment: 'fixed',
+      }}>
+        {children}
+      </div>
       <Footer/>
     </TweakContext.Provider>
   );
