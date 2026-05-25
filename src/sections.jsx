@@ -7,14 +7,11 @@ import {
 
 // ─── NAV ────────────────────────────────────────────
 const NAV = [
-  { id: 'home', label: 'HOME', short: 'HOME' },
-  { id: 'why-overseas', label: '해외진출이 필요한 이유', short: '시장배경' },
-  { id: 'why-japan', label: '왜 일본인가', short: '일본진출' },
-  { id: 'service', label: '서비스', short: '서비스' },
-  { id: 'process', label: '진행방식', short: '프로세스' },
-  { id: 'why-us', label: '우리의 강점', short: '강점' },
-  { id: 'global', label: '글로벌 확장', short: '확장' },
-  { id: 'contact', label: '문의하기', short: '문의' },
+  { id: 'home',              label: 'HOME',       short: 'HOME' },
+  { id: 'philosophy',        label: '우리의 방식', short: '방식' },
+  { id: 'about',             label: '회사 소개',   short: '소개' },
+  { id: 'services-preview',  label: '서비스',     short: '서비스' },
+  { id: 'contact',           label: '문의하기',   short: '문의' },
 ];
 
 export const Nav = () => {
@@ -220,129 +217,13 @@ const FloatingOrbs = ({ accent }) => (
   </div>
 );
 
-// Auto-cycling sequence: emphasis word + active country card move together
-const HERO_SEQUENCE = [
-  { word: '일본', country: 'JP' },
-  { word: '태국', country: 'TH' },
-  { word: '미국', country: 'US' },
-];
 
-const HeroVisual = ({ activeCountry = 'JP' }) => {
-  const t = useTweak();
-  const accent = t.accentColor || COLORS.green;
-  return (
-    <div style={{
-      position: 'relative',
-      aspectRatio: '1 / 1.05',
-      maxWidth: 460,
-      width: '100%',
-      margin: '0 auto',
-    }} className="hero-visual">
-      <div className="hero-visual-card" style={{
-        position: 'absolute', inset: 0,
-        borderRadius: 16,
-        background: `
-          radial-gradient(circle at 30% 30%, ${accent}40, transparent 55%),
-          linear-gradient(135deg, #1f1f1f 0%, #121212 100%)
-        `,
-        border: '1px solid rgba(255,255,255,0.06)',
-        boxShadow: 'rgba(0,0,0,0.5) 0 24px 48px',
-        padding: 32,
-        display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '2px', color: COLORS.textSubdued, textTransform: 'uppercase' }}>EXPANSION ROUTE</div>
-            <div style={{ fontSize: 13, color: COLORS.textMuted, marginTop: 6 }}>한국 → 일본 → 글로벌</div>
-          </div>
-          <div style={{ width: 8, height: 8, borderRadius: '50%', background: accent, boxShadow: `0 0 16px ${accent}` }}/>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {[
-            { code: 'KR', name: '한국', sub: 'HOME MARKET', origin: true },
-            { code: 'JP', name: '일본', sub: 'STEP 1 — FIRST EXPANSION' },
-            { code: 'TH', name: '태국', sub: 'STEP 2 — NEXT' },
-            { code: 'US', name: '미국', sub: 'STEP 3 — GLOBAL' },
-          ].map((c) => {
-            const state = c.origin ? 'origin' : (c.code === activeCountry ? 'active' : 'next');
-            return (
-              <div key={c.code} style={{
-                display: 'flex', alignItems: 'center', gap: 14,
-                padding: '12px 14px',
-                borderRadius: 10,
-                background: state === 'active' ? `${accent}1a` : 'rgba(255,255,255,0.03)',
-                border: state === 'active' ? `1px solid ${accent}` : '1px solid rgba(255,255,255,0.06)',
-                transition: 'background 700ms cubic-bezier(0.4, 0, 0.2, 1), border-color 700ms cubic-bezier(0.4, 0, 0.2, 1)',
-              }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: 8,
-                  background: state === 'active' ? accent : (state === 'origin' ? '#fff' : '#2a2a2a'),
-                  color: state === 'next' ? COLORS.textMuted : '#000',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontWeight: 800, fontSize: 13, letterSpacing: '0.5px',
-                }}>{c.code}</div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: COLORS.textBase }}>{c.name}</div>
-                  <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '1.5px', color: state === 'active' ? accent : COLORS.textSubdued }}>{c.sub}</div>
-                </div>
-                {state === 'active' && (
-                  <div style={{ display: 'flex', gap: 3, alignItems: 'flex-end', height: 16 }}>
-                    {[6, 12, 9, 14].map((h, idx) => (
-                      <div key={idx} style={{
-                        width: 3, height: h, background: accent, borderRadius: 1,
-                        animation: `bar 1.2s ${idx * 0.15}s ease-in-out infinite alternate`,
-                      }}/>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <style>{`
-        @keyframes bar { 0%{transform:scaleY(0.4);} 100%{transform:scaleY(1);} }
-        @media (max-width: 900px) {
-          .hero-grid { grid-template-columns: 1fr !important; }
-          .hero-visual {
-            max-width: 380px;
-            margin-top: 24px;
-            aspect-ratio: auto !important;
-          }
-          .hero-visual-card {
-            position: relative !important;
-            inset: auto !important;
-            gap: 24px !important;
-            justify-content: flex-start !important;
-          }
-        }
-      `}</style>
-    </div>
-  );
-};
+// (HeroVisual / 국가별 카드 시각화는 글로벌 전용 페이지에서 사용 예정. 메인은 미니멀.)
 
 export const Hero = () => {
   const t = useTweak();
   const accent = t.accentColor || COLORS.green;
   const titleScale = (t.titleScale || 100) / 100;
-
-  // Cycle through SEQUENCE every 4.5s with a 500ms cross-fade.
-  // Emphasis word in headline + active country card + active flight arc
-  // all stay in sync.
-  const [idx, setIdx] = useState(0);
-  const [wordOpacity, setWordOpacity] = useState(1);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWordOpacity(0);
-      setTimeout(() => {
-        setIdx((i) => (i + 1) % HERO_SEQUENCE.length);
-        setWordOpacity(1);
-      }, 500);
-    }, 4500);
-    return () => clearInterval(interval);
-  }, []);
-  const { word: emphasis, country: activeCountry } = HERO_SEQUENCE[idx];
 
   return (
     <section id="home" style={{
@@ -350,80 +231,47 @@ export const Hero = () => {
       minHeight: '100vh',
       padding: '140px clamp(20px, 5vw, 64px) 100px',
       background: `
-        radial-gradient(circle at 80% 20%, rgba(243, 114, 127, 0.18), transparent 50%),
-        radial-gradient(circle at 10% 80%, ${accent}1f, transparent 55%),
+        radial-gradient(circle at 20% 30%, ${accent}1f, transparent 55%),
+        radial-gradient(circle at 80% 70%, rgba(64,196,216,0.12), transparent 50%),
         linear-gradient(180deg, #1a1a1a 0%, #121212 60%)
       `,
       display: 'flex', alignItems: 'center',
       overflow: 'hidden',
     }}>
       <FloatingOrbs accent={accent}/>
-      <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', position: 'relative', zIndex: 2 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 1fr)', gap: 48, alignItems: 'center' }}
-             className="hero-grid">
-          <div>
-            <SectionLabel accent>Global Marketing Partner for Korean Brands</SectionLabel>
-            <h1 style={{
-              fontFamily: 'var(--font-title)',
-              fontSize: `clamp(${40 * titleScale}px, ${6 * titleScale}vw, ${78 * titleScale}px)`,
-              fontWeight: 800,
-              lineHeight: 1.05,
-              letterSpacing: '-0.03em',
-              margin: '0 0 28px 0',
-              textWrap: 'balance',
-            }}>
-              국내 시장을 넘어,<br/>
-              <span style={{
-                color: accent,
-                display: 'inline-block',
-                opacity: wordOpacity,
-                transition: 'opacity 500ms cubic-bezier(0.4, 0, 0.2, 1)',
-              }}>{emphasis}</span>에서 새로운<br/>
-              성장 기회를 찾으세요
-            </h1>
-            <p style={{
-              fontSize: 'clamp(15px, 1.4vw, 19px)',
-              lineHeight: 1.7,
-              color: COLORS.textMutedBright,
-              margin: '0 0 16px 0',
-              maxWidth: 600,
-              textWrap: 'pretty',
-            }}>
-              내수 시장의 위축과 경쟁 심화로 성장의 한계를 느끼고 있다면,
-              이제 더 넓은 시장에서 새로운 가능성을 찾아야 합니다.
-            </p>
-            <p style={{
-              fontSize: 'clamp(15px, 1.4vw, 19px)',
-              lineHeight: 1.7,
-              color: COLORS.textMutedBright,
-              margin: '0 0 36px 0',
-              maxWidth: 600,
-              textWrap: 'pretty',
-            }}>
-              우리는 일본 시장을 시작으로 한국 기업의 해외 진출을 돕는<br/>
-              <strong style={{ color: COLORS.textBase, fontWeight: 700 }}>글로벌 온라인 마케팅 파트너</strong>입니다.
-            </p>
-
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 32 }}>
-              <PrimaryButton href="#contact" size="lg">{t.ctaPrimary || '상담 문의하기'}</PrimaryButton>
-              <SecondaryButton href="#service" size="lg">{t.ctaSecondary || 'WIBE 서비스 소개'}</SecondaryButton>
-            </div>
-
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 12,
-              padding: '10px 16px',
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.06)',
-              borderRadius: 9999,
-              fontSize: 13,
-              color: COLORS.textMuted,
-            }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: accent, boxShadow: `0 0 12px ${accent}` }}/>
-              전략 · 커뮤니케이션 · 광고 실행 · 성과 분석을 하나로 연결합니다
-            </div>
-          </div>
-
-          {t.showCountryChain !== false && <HeroVisual activeCountry={activeCountry}/>}
+      <div style={{
+        maxWidth: 900, margin: '0 auto', width: '100%',
+        position: 'relative', zIndex: 2,
+        textAlign: 'center',
+      }}>
+        <SectionLabel accent>Marketing Partner for Korean Brands</SectionLabel>
+        <h1 style={{
+          fontFamily: 'var(--font-title)',
+          fontSize: `clamp(${40 * titleScale}px, ${6 * titleScale}vw, ${74 * titleScale}px)`,
+          fontWeight: 800,
+          lineHeight: 1.1,
+          letterSpacing: '-0.03em',
+          margin: '0 auto 28px',
+          textWrap: 'balance',
+          maxWidth: 880,
+        }}>
+          한국에서 글로벌까지,<br/>
+          <span style={{ color: accent }}>데이터로 검증된 마케팅</span>
+        </h1>
+        <p style={{
+          fontSize: 'clamp(15px, 1.5vw, 19px)',
+          lineHeight: 1.7,
+          color: COLORS.textMutedBright,
+          margin: '0 auto 40px',
+          maxWidth: 640,
+          textWrap: 'pretty',
+        }}>
+          WIBE는 한국 브랜드의 국내·해외 마케팅을 함께 설계합니다.
+          추측이 아닌 실험으로, 작게 시작해 검증된 방향으로 확장합니다.
+        </p>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <PrimaryButton href="#contact" size="lg">{t.ctaPrimary || '상담 문의하기'}</PrimaryButton>
+          <SecondaryButton href="#services-preview" size="lg">{t.ctaSecondary || 'WIBE 서비스 소개'}</SecondaryButton>
         </div>
       </div>
     </section>
@@ -457,8 +305,8 @@ export const About = () => {
           margin: '0 auto 24px',
           textWrap: 'pretty',
         }}>
-          한국에서 일본을 추측하지 않고,<br/>
-          <span style={{ color: accent }}>일본을 직접 경험한 시각</span>으로 접근합니다
+          데이터와 현지 경험으로<br/>
+          <span style={{ color: accent }}>한국 브랜드의 마케팅</span>을 설계합니다
         </h2>
 
         <p style={{
@@ -469,8 +317,8 @@ export const About = () => {
           maxWidth: 720,
           textWrap: 'pretty',
         }}>
-          WIBE는 한국 브랜드의 일본 진출을 돕는 마케팅 파트너입니다.
-          Google Japan에서 캠페인 운영 경험을 쌓은 전문가가 중심이 되어,
+          WIBE는 한국 브랜드의 국내·해외 마케팅을 함께 설계하는 마케팅 파트너입니다.
+          Google Japan 캠페인 운영 경험과 일본 현지 거주 경험을 바탕으로,
           시장 분석부터 광고 운영, 성과 측정까지 일관된 흐름으로 함께합니다.
         </p>
       </div>
@@ -510,6 +358,138 @@ export const About = () => {
               marginTop: 4, lineHeight: 1.4,
             }}>{s.sub}</div>
           </div>
+        ))}
+      </div>
+    </Section>
+  );
+};
+
+// ─── PHILOSOPHY (HOME) ─────────────────────────────
+// The philosophical heart of the homepage. Single statement, centered, big.
+// Full 5-principle breakdown lives in the dedicated Global Marketing page.
+export const Philosophy = () => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  return (
+    <Section id="philosophy">
+      <div style={{ textAlign: 'center', maxWidth: 880, margin: '0 auto' }}>
+        <SectionLabel>Our Philosophy</SectionLabel>
+        <h2 style={{
+          fontFamily: 'var(--font-title)',
+          fontSize: 'clamp(32px, 5.2vw, 56px)',
+          fontWeight: 800,
+          lineHeight: 1.15,
+          letterSpacing: '-0.025em',
+          color: COLORS.textBase,
+          margin: '0 auto 36px',
+          textWrap: 'balance',
+        }}>
+          추측하지 않고,<br/>
+          <span style={{ color: accent }}>데이터로 검증합니다.</span>
+        </h2>
+        <p style={{
+          fontSize: 'clamp(16px, 1.6vw, 20px)',
+          lineHeight: 1.75,
+          color: COLORS.textMutedBright,
+          margin: '0 auto',
+          maxWidth: 720,
+          textWrap: 'pretty',
+        }}>
+          모든 마케팅 결정은 데이터로 검증 가능해야 합니다.
+          WIBE는 가설을 작게 실험하고, 데이터로 확인된 방향으로만 확장합니다.
+          큰 비용으로 한 번에 도박하지 않고, 증명된 다음 단계로만 나아갑니다.
+        </p>
+      </div>
+    </Section>
+  );
+};
+
+// ─── SERVICES PREVIEW (HOME) ───────────────────────
+// Three high-level service buckets, each linking out to its dedicated page.
+// Keeps the homepage minimal — detailed service breakdowns live on /services
+// and /global rather than being inlined here.
+export const ServicesPreview = () => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+
+  const services = [
+    {
+      eyebrow: 'Domestic',
+      title: '국내 마케팅',
+      desc: '한국 시장 광고 운영부터 메시지 설계, 성과 분석까지. 데이터 기반 캠페인 설계와 운영을 함께합니다.',
+      href: '/services',
+    },
+    {
+      eyebrow: 'Global',
+      title: '글로벌 마케팅',
+      desc: '일본을 시작으로 태국·미국 등 한국 브랜드의 해외 진출. 현지화·광고 운영·시장 확장 전 과정.',
+      href: '/global',
+    },
+    {
+      eyebrow: 'Integrated',
+      title: '통합 캠페인',
+      desc: '국내와 해외를 아우르는 통합 마케팅 전략. 일관된 브랜드 메시지를 시장별로 최적화해 실행합니다.',
+      href: '/services',
+    },
+  ];
+
+  return (
+    <Section id="services-preview">
+      <div style={{ textAlign: 'center', marginBottom: 56, maxWidth: 760, marginLeft: 'auto', marginRight: 'auto' }}>
+        <SectionLabel>WIBE Services</SectionLabel>
+        <SectionHeading>한국 브랜드의 마케팅,<br/>국내부터 글로벌까지</SectionHeading>
+      </div>
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: 16,
+      }}>
+        {services.map((s) => (
+          <a
+            key={s.title}
+            href={s.href}
+            style={{
+              display: 'block',
+              padding: 32,
+              background: COLORS.surface,
+              borderRadius: 12,
+              border: '1px solid rgba(255,255,255,0.06)',
+              transition: 'background 250ms cubic-bezier(0.4, 0, 0.2, 1), transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+              textDecoration: 'none',
+              color: 'inherit',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = COLORS.elevated;
+              e.currentTarget.style.transform = 'translateY(-4px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = COLORS.surface;
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            <div style={{
+              fontSize: 11, fontWeight: 700, letterSpacing: '2px',
+              color: accent, textTransform: 'uppercase', marginBottom: 16,
+            }}>{s.eyebrow}</div>
+            <div style={{
+              fontFamily: 'var(--font-title)',
+              fontSize: 22, fontWeight: 700,
+              color: COLORS.textBase,
+              marginBottom: 12,
+              letterSpacing: '-0.01em',
+            }}>{s.title}</div>
+            <div style={{
+              fontSize: 14, color: COLORS.textMuted, lineHeight: 1.65,
+            }}>{s.desc}</div>
+            <div style={{
+              marginTop: 24, fontSize: 13, color: accent, fontWeight: 700,
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+            }}>
+              자세히 보기
+              <span style={{ display: 'inline-block', transition: 'transform 200ms' }}>→</span>
+            </div>
+          </a>
         ))}
       </div>
     </Section>

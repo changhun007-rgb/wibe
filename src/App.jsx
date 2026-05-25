@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import { TweakContext } from './components.jsx';
+// Sections used by the (now minimal) home page. The retired-from-home sections
+// (MarketBackground, WhyJapan, Services, Process, WhyUs, GlobalExpansion) are
+// still exported from sections.jsx and will be picked up by the upcoming
+// dedicated sub-pages (/about, /services, /global).
 import {
-  Nav, Hero, About, MarketBackground, WhyJapan, Services, Process, WhyUs, GlobalExpansion, Contact, Footer,
+  Nav, Hero, Philosophy, About, ServicesPreview, Contact, Footer,
 } from './sections.jsx';
 
 const DEFAULTS = {
@@ -37,13 +41,9 @@ export default function App() {
     <TweakContext.Provider value={DEFAULTS}>
       <Nav/>
       <Hero/>
+      <Philosophy/>
       <About/>
-      <MarketBackground/>
-      <WhyJapan/>
-      <Services/>
-      <Process/>
-      <WhyUs/>
-      <GlobalExpansion/>
+      <ServicesPreview/>
       <Contact/>
       <Footer/>
     </TweakContext.Provider>
