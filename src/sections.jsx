@@ -430,134 +430,88 @@ export const Hero = () => {
   );
 };
 
-// ─── ABOUT (FOUNDER) ───────────────────────────────
+// ─── ABOUT (COMPANY) ───────────────────────────────
+// Company-focused intro. Avoids spotlighting a single founder — a one-person
+// shop framing can actually erode trust ("who covers if they're sick?") —
+// and keeps the page focused on building just enough credibility to earn a
+// meeting, not on closing the sale.
 export const About = () => {
   const t = useTweak();
   const accent = t.accentColor || COLORS.green;
   const stats = [
-    { num: '200+', label: '글로벌 브랜드', sub: '캠페인 운영 경험' },
-    { num: '3년',  label: '일본 현지',     sub: '거주 경험' },
-    { num: 'Google', label: 'Japan',     sub: '캠페인 전문가 출신' },
+    { num: '200+',   label: '글로벌 브랜드',  sub: '캠페인 운영 경험' },
+    { num: '3년',    label: '일본 현지',      sub: '거주 경험' },
+    { num: 'Google', label: 'Japan',         sub: '캠페인 전문가 출신' },
   ];
   return (
     <Section id="about" bg="alt">
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 0.85fr) minmax(0, 1.15fr)',
-          gap: 56,
-          alignItems: 'start',
-        }}
-        className="two-col"
-      >
-        {/* Founder card — placeholder uses BrandMark; swap inner div for <img>
-            once the actual photo is delivered (keep the overlay text intact). */}
-        <div style={{
-          aspectRatio: '4 / 5',
-          background: `linear-gradient(135deg, ${accent}26 0%, #1a1a1a 55%, #0c0c0c 100%)`,
-          borderRadius: 16,
-          border: '1px solid rgba(255,255,255,0.08)',
-          position: 'relative',
-          overflow: 'hidden',
-          boxShadow: 'rgba(0,0,0,0.45) 0 18px 40px',
+      <div style={{ textAlign: 'center', maxWidth: 880, margin: '0 auto' }}>
+        <SectionLabel accent>About WIBE</SectionLabel>
+        <h2 style={{
+          fontFamily: 'var(--font-title)',
+          fontSize: 'clamp(28px, 4vw, 44px)',
+          fontWeight: 800,
+          lineHeight: 1.2,
+          letterSpacing: '-0.02em',
+          color: COLORS.textBase,
+          margin: '0 auto 24px',
+          textWrap: 'pretty',
         }}>
-          <div style={{
-            position: 'absolute', top: '42%', left: '50%',
-            transform: 'translate(-50%, -50%)',
-            opacity: 0.55,
-          }}>
-            <BrandMark size={140}/>
-          </div>
-          <div style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0,
-            padding: '64px 24px 24px',
-            background: 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.72) 100%)',
-          }}>
-            <div style={{
-              fontSize: 11, fontWeight: 700, letterSpacing: '2px',
-              color: accent, textTransform: 'uppercase',
-            }}>Founder</div>
-            <div style={{
-              fontFamily: 'var(--font-title)',
-              fontSize: 26, fontWeight: 800,
-              color: COLORS.textBase,
-              marginTop: 6, letterSpacing: '-0.01em',
-            }}>전창현</div>
-            <div style={{ fontSize: 13, color: COLORS.textMuted, marginTop: 4 }}>
-              WIBE 대표 · Founder &amp; CEO
-            </div>
-          </div>
-        </div>
+          한국에서 일본을 추측하지 않고,<br/>
+          <span style={{ color: accent }}>일본을 직접 경험한 시각</span>으로 접근합니다
+        </h2>
 
-        {/* Content column */}
-        <div>
-          <SectionLabel>About WIBE</SectionLabel>
-          <SectionHeading>
-            한국에서 일본을 추측하는 사람이 아니라,<br/>
-            <span style={{ color: accent }}>일본을 직접 살아본 사람</span>이 필요합니다
-          </SectionHeading>
-
-          {/* Stat cards row */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-              gap: 12,
-              marginTop: 28,
-              marginBottom: 32,
-            }}
-            className="about-stats"
-          >
-            {stats.map((s) => (
-              <div key={s.num} style={{
-                padding: '22px 18px',
-                background: COLORS.surface,
-                borderRadius: 12,
-                border: '1px solid rgba(255,255,255,0.06)',
-              }}>
-                <div style={{
-                  fontFamily: 'var(--font-title)',
-                  fontSize: 'clamp(24px, 2.6vw, 34px)',
-                  fontWeight: 800, color: accent,
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1,
-                }}>{s.num}</div>
-                <div style={{
-                  fontSize: 12, fontWeight: 700,
-                  color: COLORS.textBase, marginTop: 12,
-                  letterSpacing: '0.2px',
-                }}>{s.label}</div>
-                <div style={{
-                  fontSize: 12, color: COLORS.textMuted,
-                  marginTop: 2, lineHeight: 1.4,
-                }}>{s.sub}</div>
-              </div>
-            ))}
-          </div>
-
-          <Lead>
-            WIBE 대표 전창현은
-            {' '}<strong style={{ color: COLORS.textBase, fontWeight: 700 }}>Google Japan에서 200개 이상의 글로벌 브랜드 캠페인을 직접 운영</strong>한
-            전 캠페인 전문가입니다. 3년간 일본에 거주하며 현지 시장과 소비자를
-            직접 경험했고, 지금도 일본 현지 광고대행사 네트워크와 함께
-            협업합니다.
-          </Lead>
-          <Lead>
-            한국에서만 일본 시장을 분석하는 외부 컨설턴트가 아닌,
-            {' '}<strong style={{ color: COLORS.textBase, fontWeight: 700 }}>일본 시장 내부를 직접 경험한 실행자</strong>가
-            한국 기업의 첫 일본 진출을 함께합니다.
-          </Lead>
-        </div>
+        <p style={{
+          fontSize: 'clamp(15px, 1.4vw, 17px)',
+          lineHeight: 1.7,
+          color: COLORS.textMutedBright,
+          margin: '0 auto 16px',
+          maxWidth: 720,
+          textWrap: 'pretty',
+        }}>
+          WIBE는 한국 브랜드의 일본 진출을 돕는 마케팅 파트너입니다.
+          Google Japan에서 캠페인 운영 경험을 쌓은 전문가가 중심이 되어,
+          시장 분석부터 광고 운영, 성과 측정까지 일관된 흐름으로 함께합니다.
+        </p>
       </div>
 
-      <style>{`
-        @media (max-width: 900px) {
-          #about .two-col {
-            grid-template-columns: 1fr !important;
-            gap: 32px !important;
-          }
-        }
-      `}</style>
+      {/* Stat cards row */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+        gap: 16,
+        marginTop: 56,
+        maxWidth: 880,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      }}>
+        {stats.map((s) => (
+          <div key={s.num} style={{
+            padding: '28px 24px',
+            background: COLORS.surface,
+            borderRadius: 12,
+            border: '1px solid rgba(255,255,255,0.06)',
+            textAlign: 'center',
+          }}>
+            <div style={{
+              fontFamily: 'var(--font-title)',
+              fontSize: 'clamp(28px, 3vw, 38px)',
+              fontWeight: 800, color: accent,
+              letterSpacing: '-0.02em',
+              lineHeight: 1,
+            }}>{s.num}</div>
+            <div style={{
+              fontSize: 13, fontWeight: 700,
+              color: COLORS.textBase, marginTop: 14,
+              letterSpacing: '0.2px',
+            }}>{s.label}</div>
+            <div style={{
+              fontSize: 12, color: COLORS.textMuted,
+              marginTop: 4, lineHeight: 1.4,
+            }}>{s.sub}</div>
+          </div>
+        ))}
+      </div>
     </Section>
   );
 };
@@ -1021,166 +975,6 @@ export const GlobalExpansion = () => {
         일본 진출은 끝이 아니라,<br/>
         <span style={{ color: COLORS.green }}>글로벌 시장으로 나아가기 위한 첫 번째 실행</span>입니다.
       </Highlight>
-    </Section>
-  );
-};
-
-// ─── EARLY PARTNER PROGRAM ─────────────────────────
-export const EarlyPartner = () => {
-  const t = useTweak();
-  const accent = t.accentColor || COLORS.green;
-
-  const benefits = [
-    {
-      num: '01',
-      title: '컨설팅 비용 50% 할인',
-      desc: '시장 분석, 진출 전략 설계, 메시지 기획까지 포함된 초기 컨설팅 패키지를 정상가의 절반에 제공합니다.',
-    },
-    {
-      num: '02',
-      title: '대표가 직접 운영',
-      desc: '주니어 인력에게 위임하지 않고 Google Japan 출신 대표가 6개월간 직접 캠페인 운영과 분석을 진행합니다.',
-    },
-    {
-      num: '03',
-      title: '케이스 스터디 공동 제작',
-      desc: '6개월 협업 후 성과를 사례로 함께 정리합니다. 양사 합의하에 익명·실명 공개 여부를 결정합니다.',
-    },
-    {
-      num: '04',
-      title: '무료 진단 컨설팅',
-      desc: '계약 전 1회 무료로 제품·서비스의 일본 시장 적합도, 예상 예산, 추천 채널을 분석해드립니다.',
-    },
-  ];
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    const el = document.getElementById('contact');
-    if (el) window.scrollTo({ top: el.offsetTop - 64, behavior: 'smooth' });
-  };
-
-  return (
-    <Section id="partner">
-      <div style={{
-        padding: 'clamp(36px, 6vw, 72px)',
-        borderRadius: 20,
-        background: `
-          radial-gradient(circle at 15% 25%, ${accent}22 0%, transparent 50%),
-          radial-gradient(circle at 85% 75%, ${accent}14 0%, transparent 55%),
-          linear-gradient(135deg, #1a1a1a 0%, #121212 100%)
-        `,
-        border: `1px solid ${accent}40`,
-        boxShadow: `rgba(0,0,0,0.45) 0 20px 50px`,
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        {/* Eyebrow badge */}
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 10,
-          padding: '8px 14px',
-          background: `${accent}1a`,
-          border: `1px solid ${accent}66`,
-          borderRadius: 9999,
-          fontSize: 11,
-          fontWeight: 700,
-          letterSpacing: '2px',
-          textTransform: 'uppercase',
-          color: accent,
-          marginBottom: 24,
-        }}>
-          <span style={{
-            width: 6, height: 6, borderRadius: '50%',
-            background: accent, boxShadow: `0 0 12px ${accent}`,
-          }}/>
-          Early Partner · 한정 모집
-        </div>
-
-        <h2 style={{
-          fontFamily: 'var(--font-title)',
-          fontSize: 'clamp(28px, 4vw, 44px)',
-          fontWeight: 800,
-          lineHeight: 1.15,
-          letterSpacing: '-0.02em',
-          color: COLORS.textBase,
-          margin: '0 0 24px 0',
-          textWrap: 'pretty',
-        }}>
-          함께 첫 일본 진출 케이스를 만들<br/>
-          <span style={{ color: accent }}>1~3개 파트너사</span>를 모집합니다
-        </h2>
-
-        <p style={{
-          fontSize: 'clamp(15px, 1.4vw, 17px)',
-          lineHeight: 1.7,
-          color: COLORS.textMutedBright,
-          margin: '0 0 12px 0',
-          maxWidth: 760,
-        }}>
-          WIBE는 2026년 새롭게 시작하는 일본 진출 마케팅 파트너입니다.
-          공식 오픈 후 첫 1~3개사에게는 특별 조건을 제공합니다 —
-          시작 단계에서 함께 케이스를 만드는 만큼 양쪽 모두에게 의미 있는 구조입니다.
-        </p>
-        <p style={{
-          fontSize: 14,
-          lineHeight: 1.7,
-          color: COLORS.textMuted,
-          margin: '0',
-          maxWidth: 760,
-        }}>
-          신생업체에 대한 우려보다, 대표가 직접 풀 어텐션으로 운영한다는 것의
-          이점을 더 크게 보시는 분과 함께하고 싶습니다.
-        </p>
-
-        {/* Benefits grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: 14,
-          marginTop: 36,
-          marginBottom: 36,
-        }}>
-          {benefits.map((b) => (
-            <div key={b.num} style={{
-              padding: 22,
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: 12,
-            }}>
-              <div style={{
-                fontFamily: 'var(--font-title)',
-                fontSize: 14, fontWeight: 800,
-                color: accent,
-                letterSpacing: '1px',
-                marginBottom: 12,
-              }}>{b.num}</div>
-              <div style={{
-                fontSize: 16, fontWeight: 700,
-                color: COLORS.textBase,
-                marginBottom: 8,
-                lineHeight: 1.35,
-              }}>{b.title}</div>
-              <div style={{
-                fontSize: 13, color: COLORS.textMuted,
-                lineHeight: 1.6,
-              }}>{b.desc}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA row */}
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap',
-        }}>
-          <PrimaryButton href="#contact" onClick={handleClick} size="lg">
-            파트너 신청하기
-          </PrimaryButton>
-          <span style={{ fontSize: 13, color: COLORS.textMuted }}>
-            모집이 마감되어도 일반 컨설팅 문의는 계속 받습니다
-          </span>
-        </div>
-      </div>
     </Section>
   );
 };
