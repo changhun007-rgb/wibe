@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { TweakContext } from './components.jsx';
 import {
-  Nav, Hero, MarketBackground, WhyJapan, Services, Process, WhyUs, GlobalExpansion, Contact, Footer,
+  Nav, Hero, About, MarketBackground, WhyJapan, Services, Process, WhyUs, GlobalExpansion, Contact, Footer,
 } from './sections.jsx';
 
 const DEFAULTS = {
@@ -37,6 +37,7 @@ export default function App() {
     <TweakContext.Provider value={DEFAULTS}>
       <Nav/>
       <Hero/>
+      <About/>
       <MarketBackground/>
       <WhyJapan/>
       <Services/>

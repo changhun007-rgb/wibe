@@ -430,6 +430,138 @@ export const Hero = () => {
   );
 };
 
+// ─── ABOUT (FOUNDER) ───────────────────────────────
+export const About = () => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  const stats = [
+    { num: '200+', label: '글로벌 브랜드', sub: '캠페인 운영 경험' },
+    { num: '3년',  label: '일본 현지',     sub: '거주 경험' },
+    { num: 'Google', label: 'Japan',     sub: '캠페인 전문가 출신' },
+  ];
+  return (
+    <Section id="about" bg="alt">
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 0.85fr) minmax(0, 1.15fr)',
+          gap: 56,
+          alignItems: 'start',
+        }}
+        className="two-col"
+      >
+        {/* Founder card — placeholder uses BrandMark; swap inner div for <img>
+            once the actual photo is delivered (keep the overlay text intact). */}
+        <div style={{
+          aspectRatio: '4 / 5',
+          background: `linear-gradient(135deg, ${accent}26 0%, #1a1a1a 55%, #0c0c0c 100%)`,
+          borderRadius: 16,
+          border: '1px solid rgba(255,255,255,0.08)',
+          position: 'relative',
+          overflow: 'hidden',
+          boxShadow: 'rgba(0,0,0,0.45) 0 18px 40px',
+        }}>
+          <div style={{
+            position: 'absolute', top: '42%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            opacity: 0.55,
+          }}>
+            <BrandMark size={140}/>
+          </div>
+          <div style={{
+            position: 'absolute', bottom: 0, left: 0, right: 0,
+            padding: '64px 24px 24px',
+            background: 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.72) 100%)',
+          }}>
+            <div style={{
+              fontSize: 11, fontWeight: 700, letterSpacing: '2px',
+              color: accent, textTransform: 'uppercase',
+            }}>Founder</div>
+            <div style={{
+              fontFamily: 'var(--font-title)',
+              fontSize: 26, fontWeight: 800,
+              color: COLORS.textBase,
+              marginTop: 6, letterSpacing: '-0.01em',
+            }}>전창현</div>
+            <div style={{ fontSize: 13, color: COLORS.textMuted, marginTop: 4 }}>
+              WIBE 대표 · Founder &amp; CEO
+            </div>
+          </div>
+        </div>
+
+        {/* Content column */}
+        <div>
+          <SectionLabel>About WIBE</SectionLabel>
+          <SectionHeading>
+            한국에서 일본을 추측하는 사람이 아니라,<br/>
+            <span style={{ color: accent }}>일본을 직접 살아본 사람</span>이 필요합니다
+          </SectionHeading>
+
+          {/* Stat cards row */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+              gap: 12,
+              marginTop: 28,
+              marginBottom: 32,
+            }}
+            className="about-stats"
+          >
+            {stats.map((s) => (
+              <div key={s.num} style={{
+                padding: '22px 18px',
+                background: COLORS.surface,
+                borderRadius: 12,
+                border: '1px solid rgba(255,255,255,0.06)',
+              }}>
+                <div style={{
+                  fontFamily: 'var(--font-title)',
+                  fontSize: 'clamp(24px, 2.6vw, 34px)',
+                  fontWeight: 800, color: accent,
+                  letterSpacing: '-0.02em',
+                  lineHeight: 1,
+                }}>{s.num}</div>
+                <div style={{
+                  fontSize: 12, fontWeight: 700,
+                  color: COLORS.textBase, marginTop: 12,
+                  letterSpacing: '0.2px',
+                }}>{s.label}</div>
+                <div style={{
+                  fontSize: 12, color: COLORS.textMuted,
+                  marginTop: 2, lineHeight: 1.4,
+                }}>{s.sub}</div>
+              </div>
+            ))}
+          </div>
+
+          <Lead>
+            WIBE 대표 전창현은
+            {' '}<strong style={{ color: COLORS.textBase, fontWeight: 700 }}>Google Japan에서 200개 이상의 글로벌 브랜드 캠페인을 직접 운영</strong>한
+            전 캠페인 전문가입니다. 3년간 일본에 거주하며 현지 시장과 소비자를
+            직접 경험했고, 지금도 일본 현지 광고대행사 네트워크와 함께
+            협업합니다.
+          </Lead>
+          <Lead>
+            한국에서만 일본 시장을 분석하는 외부 컨설턴트가 아닌,
+            {' '}<strong style={{ color: COLORS.textBase, fontWeight: 700 }}>일본 시장 내부를 직접 경험한 실행자</strong>가
+            한국 기업의 첫 일본 진출을 함께합니다.
+          </Lead>
+        </div>
+      </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          #about .two-col {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+        }
+      `}</style>
+    </Section>
+  );
+};
+
 // ─── MARKET BACKGROUND ─────────────────────────────
 export const MarketBackground = () => {
   const points = [
