@@ -5,7 +5,7 @@ import {
 } from './sections.jsx';
 
 const DEFAULTS = {
-  accentColor: '#ee9144',
+  accentColor: '#1d8cc6',
   brandName: 'WIBE',
   heroEmphasis: '일본',
   activeCountry: 'JP',

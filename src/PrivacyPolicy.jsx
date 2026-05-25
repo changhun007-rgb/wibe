@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { TweakContext, COLORS, BrandMark } from './components.jsx';
 
 const DEFAULTS = {
-  accentColor: '#ee9144',
+  accentColor: '#1d8cc6',
   brandName: 'WIBE',
   _tone: { base: '#121212', alt: '#0e0e0e', surface: '#181818', text: '#ffffff' },
 };

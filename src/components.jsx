@@ -23,8 +23,8 @@ export const COLORS = {
   elevated: '#1f1f1f',
   card2: '#252525',
   card3: '#272727',
-  green: '#ee9144',
-  greenPress: '#d97a2a',
+  green: '#1d8cc6',
+  greenPress: '#1779ad',
   textBase: '#ffffff',
   textMutedBright: '#cbcbcb',
   textMuted: '#b3b3b3',
@@ -228,13 +228,12 @@ export const Section = ({ id, children, bg, py }) => {
   );
 };
 
-export const BrandMark = ({ size = 32 }) => {
-  const t = useTweak();
-  const accent = t.accentColor || COLORS.green;
-  return (
-    <svg width={size} height={size} viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="16" fill={accent}/>
-      <circle cx="16" cy="16" r="6" fill="#000"/>
-    </svg>
-  );
-};
+export const BrandMark = ({ size = 32 }) => (
+  <img
+    src="/logo.png"
+    alt="WIBE"
+    width={size}
+    height={size}
+    style={{ display: 'block', objectFit: 'contain' }}
+  />
+);

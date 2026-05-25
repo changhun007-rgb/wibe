@@ -163,21 +163,21 @@ const FloatingOrbs = ({ accent }) => (
       .wibe-orb-2 {
         width: 52vw; height: 52vw; max-width: 620px; max-height: 620px;
         top: 30%; right: -18%;
-        background: radial-gradient(circle, rgba(243,114,127,0.42) 0%, rgba(243,114,127,0.12) 35%, transparent 65%);
+        background: radial-gradient(circle, rgba(64,196,216,0.42) 0%, rgba(64,196,216,0.12) 35%, transparent 65%);
         animation: wibe-orb-drift-2 26s cubic-bezier(0.45, 0, 0.55, 1) infinite;
         animation-delay: -4s;
       }
       .wibe-orb-3 {
         width: 46vw; height: 46vw; max-width: 560px; max-height: 560px;
         bottom: -22%; left: 22%;
-        background: radial-gradient(circle, rgba(245,179,71,0.35) 0%, rgba(245,179,71,0.10) 35%, transparent 65%);
+        background: radial-gradient(circle, rgba(180,200,220,0.30) 0%, rgba(180,200,220,0.08) 35%, transparent 65%);
         animation: wibe-orb-drift-3 30s cubic-bezier(0.45, 0, 0.55, 1) infinite;
         animation-delay: -9s;
       }
       .wibe-orb-4 {
         width: 42vw; height: 42vw; max-width: 520px; max-height: 520px;
         top: -8%; right: 18%;
-        background: radial-gradient(circle, rgba(83,108,194,0.32) 0%, rgba(83,108,194,0.08) 35%, transparent 65%);
+        background: radial-gradient(circle, rgba(45,100,145,0.36) 0%, rgba(45,100,145,0.10) 35%, transparent 65%);
         animation: wibe-orb-drift-4 18s cubic-bezier(0.45, 0, 0.55, 1) infinite;
         animation-delay: -6s;
       }
@@ -686,7 +686,7 @@ export const Services = () => {
                 padding: '24px 28px',
                 cursor: 'pointer',
                 transition: 'background 200ms',
-                border: isOpen ? `1px solid rgba(238, 145, 68, 0.3)` : '1px solid transparent',
+                border: isOpen ? `1px solid rgba(29, 140, 198, 0.3)` : '1px solid transparent',
               }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
                 <div style={{
@@ -843,7 +843,7 @@ export const WhyUs = () => {
         <div style={{
           marginTop: 48, marginBottom: 48,
           padding: '32px 24px',
-          background: `linear-gradient(90deg, rgba(243,114,127,0.06), ${accent}10, rgba(83,157,245,0.06))`,
+          background: `linear-gradient(90deg, rgba(64,196,216,0.06), ${accent}10, rgba(45,100,145,0.06))`,
           border: '1px solid rgba(255,255,255,0.06)',
           borderRadius: 16,
           display: 'grid',
@@ -880,8 +880,8 @@ export const WhyUs = () => {
           <Card key={i} hover padding={28}>
             <div style={{
               width: 44, height: 44, borderRadius: 10,
-              background: 'rgba(238, 145, 68, 0.10)',
-              border: `1px solid rgba(238, 145, 68, 0.3)`,
+              background: 'rgba(29, 140, 198, 0.10)',
+              border: `1px solid rgba(29, 140, 198, 0.3)`,
               color: COLORS.green,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontFamily: 'var(--font-title)', fontWeight: 800, fontSize: 15, letterSpacing: '0.5px',
@@ -942,7 +942,7 @@ export const GlobalExpansion = () => {
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 24,
                 padding: '20px 24px',
-                background: i === 0 ? 'rgba(238,145,68,0.08)' : 'rgba(255,255,255,0.02)',
+                background: i === 0 ? 'rgba(29,140,198,0.08)' : 'rgba(255,255,255,0.02)',
                 border: i === 0 ? `1px solid ${COLORS.green}` : '1px solid rgba(255,255,255,0.06)',
                 borderRadius: 12,
               }}>

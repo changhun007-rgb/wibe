@@ -1,14 +1,14 @@
 /* =========================================================
    WIBE — Tokens (originally Spotify Design System inspired,
-   accent updated to brand orange #ee9144)
+   accent updated to brand orange #1d8cc6)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root {
   /* ---------- Brand ---------- */
-  --brand-accent:       #ee9144;
-  --brand-accent-press: #d97a2a;
+  --brand-accent:       #1d8cc6;
+  --brand-accent-press: #1779ad;
 
   /* ---------- Surfaces ---------- */
   --bg-base:            #121212;

@@ -84,7 +84,7 @@ export const onRequestPost = async ({ request, env }) => {
     const subject = `[WIBE 문의] ${company} — ${name}`;
     const html = `
       <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#111">
-        <h2 style="margin:0 0 16px;color:#ee9144">새 문의가 접수되었습니다</h2>
+        <h2 style="margin:0 0 16px;color:#1d8cc6">새 문의가 접수되었습니다</h2>
         <table style="width:100%;border-collapse:collapse;font-size:14px">
           <tr><td style="padding:8px 0;color:#666;width:120px">회사명</td><td style="padding:8px 0"><b>${escape(company)}</b></td></tr>
           <tr><td style="padding:8px 0;color:#666">담당자</td><td style="padding:8px 0">${escape(name)}</td></tr>
