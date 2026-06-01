@@ -10,11 +10,11 @@ import {
 // current pathname rather than scroll position. The CTA button on the right
 // always points to /contact/.
 const NAV = [
-  { href: '/',          label: '홈',           short: '홈',     match: (p) => p === '/' || p === '' },
-  { href: '/about/',    label: '회사 소개',    short: '소개',   match: (p) => p.startsWith('/about') },
-  { href: '/services/', label: '서비스',       short: '서비스', match: (p) => p.startsWith('/services') },
-  { href: '/global/',   label: '글로벌 마케팅', short: '글로벌', match: (p) => p.startsWith('/global') },
-  { href: '/contact/',  label: '문의하기',     short: '문의',   match: (p) => p.startsWith('/contact') },
+  { href: '/',          label: '홈',           short: '홈',           match: (p) => p === '/' || p === '' },
+  { href: '/about/',    label: '회사 소개',    short: '회사 소개',    match: (p) => p.startsWith('/about') },
+  { href: '/services/', label: '커머스 대행',  short: '커머스 대행',  match: (p) => p.startsWith('/services') },
+  { href: '/global/',   label: '글로벌 마케팅', short: '글로벌 마케팅', match: (p) => p.startsWith('/global') },
+  { href: '/contact/',  label: '문의하기',     short: '문의하기',     match: (p) => p.startsWith('/contact') },
 ];
 
 export const Nav = () => {
@@ -74,7 +74,7 @@ export const Nav = () => {
             );
           })}
           <div style={{ marginLeft: 8 }}>
-            <PrimaryButton href="/contact/">문의하기</PrimaryButton>
+            <PrimaryButton href="/contact/">상담 신청하기</PrimaryButton>
           </div>
         </nav>
 
@@ -111,7 +111,7 @@ export const Nav = () => {
             );
           })}
           <div style={{ marginTop: 16 }}>
-            <PrimaryButton href="/contact/">상담 문의하기</PrimaryButton>
+            <PrimaryButton href="/contact/">상담 신청하기</PrimaryButton>
           </div>
         </div>
       )}
@@ -301,8 +301,8 @@ export const About = ({ py }) => {
           margin: '0 auto 24px',
           textWrap: 'pretty',
         }}>
-          데이터와 현지 경험으로<br/>
-          <span style={{ color: accent }}>한국 브랜드의 마케팅</span>을 설계합니다
+          제품의 강점을<br/>
+          <span style={{ color: accent }}>브랜드와 판매 구조</span>로 연결합니다
         </h2>
 
         <p style={{
@@ -313,9 +313,9 @@ export const About = ({ py }) => {
           maxWidth: 720,
           textWrap: 'pretty',
         }}>
-          WIBE는 한국 브랜드의 국내·해외 마케팅을 함께 설계하는 마케팅 파트너입니다.
-          Google Japan 캠페인 운영 경험과 일본 현지 거주 경험을 바탕으로,
-          시장 분석부터 광고 운영, 성과 측정까지 일관된 흐름으로 함께합니다.
+          WIBE는 제품을 가진 제조사와 브랜드가 더 가볍게 온라인 판매를 시작할 수 있도록 돕는 커머스 대행사입니다.
+          제품의 강점과 브랜드 방향성을 정리하고, 촬영·상세페이지·판매 채널·콘텐츠 제작까지 온라인 판매에 필요한 기반을 함께 만듭니다.
+          Google Japan 캠페인 운영과 일본 현지 경험을 바탕으로, 국내 판매 이후 해외 시장 확장까지 연결합니다.
         </p>
       </div>
 
@@ -1331,10 +1331,10 @@ export const Footer = () => (
         fontWeight: 700, lineHeight: 1.3, color: COLORS.textBase,
         margin: '0 0 12px 0', letterSpacing: '-0.02em',
       }}>
-        Korean Brands, Beyond Korea.
+        제품을 브랜드로 만들고, 온라인 판매까지.
       </p>
       <p style={{ fontSize: 15, color: COLORS.textMuted, margin: '0 0 48px 0' }}>
-        일본을 시작으로 한국 기업의 글로벌 확장을 함께합니다.
+        제품의 강점 정리부터 온라인 판매 준비까지, 외부 커머스팀처럼 함께합니다.
       </p>
       <div style={{
         display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16,
@@ -1342,13 +1342,512 @@ export const Footer = () => (
         fontSize: 12, color: COLORS.textSubdued,
       }}>
         <div>© 2026 WIBE. All rights reserved.</div>
-        <div style={{ display: 'flex', gap: 24 }}>
-          <a href="#contact" style={{ color: COLORS.textMuted }}>문의하기</a>
-          <a href="#service" style={{ color: COLORS.textMuted }}>서비스</a>
-          <a href="#process" style={{ color: COLORS.textMuted }}>진행방식</a>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <a href="/about/" style={{ color: COLORS.textMuted }}>회사 소개</a>
+          <a href="/services/" style={{ color: COLORS.textMuted }}>커머스 대행</a>
+          <a href="/global/" style={{ color: COLORS.textMuted }}>글로벌 마케팅</a>
+          <a href="/contact/" style={{ color: COLORS.textMuted }}>문의하기</a>
           <a href="/privacy/" style={{ color: COLORS.textBase, fontWeight: 600 }}>개인정보 처리방침</a>
         </div>
       </div>
     </div>
   </footer>
 );
+
+// ════════════════════════════════════════════════════════════
+// COMMERCE HOME SECTIONS (2026 repositioning → 커머스 대행사)
+// The homepage now leads with WIBE as a commerce agency that turns a product
+// into a brand and connects it to online sales. Deep overseas content stays on
+// /global; detailed service breakdowns live on /services. Render order is set
+// by src/App.jsx. Section copy follows the client's home-page guide verbatim.
+// ════════════════════════════════════════════════════════════
+
+// Centered body paragraph used across the commerce home sections.
+const CenterP = ({ children, max = 720 }) => (
+  <p style={{
+    fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: 1.75,
+    color: COLORS.textMutedBright, margin: '0 auto', maxWidth: max, textWrap: 'pretty',
+  }}>{children}</p>
+);
+
+// Compact line-icon set for the card grids.
+function Glyph({ name, color = 'currentColor', size = 22 }) {
+  const p = { fill: 'none', stroke: color, strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round' };
+  const inner = {
+    spark:   <path {...p} d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>,
+    compass: <><circle {...p} cx="12" cy="12" r="9"/><path {...p} d="M15.5 8.5l-2 5-5 2 2-5z"/></>,
+    image:   <><rect {...p} x="3" y="4" width="18" height="16" rx="2"/><circle {...p} cx="8.5" cy="9.5" r="1.5"/><path {...p} d="M21 16l-5-5L5 20"/></>,
+    doc:     <><path {...p} d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path {...p} d="M14 3v5h5M8 13h8M8 17h6"/></>,
+    store:   <><path {...p} d="M4 9l1-4h14l1 4M4 9h16v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zM4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/></>,
+    speaker: <><path {...p} d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path {...p} d="M15 9a3 3 0 0 1 0 6M18 6a7 7 0 0 1 0 12"/></>,
+    camera:  <><rect {...p} x="3" y="6" width="18" height="14" rx="2"/><circle {...p} cx="12" cy="13" r="3.5"/><path {...p} d="M8 6l1.4-2h5.2L16 6"/></>,
+    cart:    <><circle {...p} cx="9" cy="20" r="1.4"/><circle {...p} cx="17" cy="20" r="1.4"/><path {...p} d="M3 4h2l2.2 11h10l2-7H6"/></>,
+    growth:  <><path {...p} d="M4 19h16M6 16l4-5 3 3 5-7"/><path {...p} d="M17 7h3v3"/></>,
+    check:   <path {...p} d="M5 12l4 4L19 6"/>,
+  };
+  return <svg width={size} height={size} viewBox="0 0 24 24">{inner[name]}</svg>;
+}
+
+// ─── 1. COMMERCE HERO ───────────────────────────────
+export const CommerceHero = () => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  const titleScale = (t.titleScale || 100) / 100;
+  const flow = [
+    { step: '01', label: '브랜드 구축', desc: '제품 강점 · 브랜드 방향성 정리' },
+    { step: '02', label: '판매 준비', desc: '촬영 · 상세페이지 · 판매 채널 세팅' },
+    { step: '03', label: '판매 시작', desc: '광고 콘텐츠 · 판매 · 개선' },
+  ];
+  return (
+    <section id="home" style={{
+      position: 'relative',
+      minHeight: 'clamp(560px, 86vh, 820px)',
+      padding: '140px clamp(20px, 5vw, 64px) 80px',
+      background: 'transparent',
+      display: 'flex', alignItems: 'center',
+    }}>
+      <div style={{
+        maxWidth: 1200, margin: '0 auto', width: '100%',
+        position: 'relative', zIndex: 1,
+        display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 'clamp(32px, 5vw, 72px)',
+        alignItems: 'center',
+      }} className="hero-grid">
+        <div>
+          <SectionLabel accent>Commerce Partner for Brands</SectionLabel>
+          <h1 style={{
+            fontFamily: 'var(--font-title)',
+            fontSize: `clamp(${34 * titleScale}px, ${5.2 * titleScale}vw, ${60 * titleScale}px)`,
+            fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.03em',
+            margin: '0 0 24px', textWrap: 'balance',
+          }}>
+            제품을 <span style={{ color: accent }}>브랜드</span>로 만들고,<br/>
+            <span style={{ color: accent }}>온라인 판매</span>까지 연결합니다.
+          </h1>
+          <p style={{
+            fontSize: 'clamp(15px, 1.4vw, 18px)', lineHeight: 1.75,
+            color: COLORS.textMutedBright, margin: '0 0 24px', maxWidth: 560, textWrap: 'pretty',
+          }}>
+            제품만 있다면 시작할 수 있습니다. WIBE는 제품의 강점과 브랜드 방향성을 정리하고,
+            촬영·상세페이지·판매채널·광고 콘텐츠까지 온라인 판매에 필요한 기반을 함께 만드는 커머스 대행사입니다.
+          </p>
+          <div style={{
+            display: 'inline-flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px 14px',
+            padding: '12px 18px', marginBottom: 32, borderRadius: 10,
+            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)',
+            fontSize: 13, fontWeight: 600, color: COLORS.textBase,
+          }}>
+            <span>직원 채용 없이</span>
+            <span style={{ color: accent }}>·</span>
+            <span>사무실 임대 없이</span>
+            <span style={{ color: accent }}>·</span>
+            <span>외부 커머스팀처럼 함께</span>
+          </div>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <PrimaryButton href="/contact/" size="lg">온라인 판매 상담하기</PrimaryButton>
+            <SecondaryButton href="/contact/" size="lg">내 제품 판매 가능성 확인하기</SecondaryButton>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }} className="hero-flow">
+          {flow.map((f, i) => (
+            <Fragment key={f.step}>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 18,
+                padding: '20px 22px', borderRadius: 14,
+                background: COLORS.surface, border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <div style={{
+                  flexShrink: 0, width: 46, height: 46, borderRadius: 12,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: `${accent}1a`, border: `1px solid ${accent}55`,
+                  color: accent, fontFamily: 'var(--font-title)', fontWeight: 800, fontSize: 16,
+                }}>{f.step}</div>
+                <div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase, marginBottom: 4 }}>{f.label}</div>
+                  <div style={{ fontSize: 13, color: COLORS.textMuted, lineHeight: 1.5 }}>{f.desc}</div>
+                </div>
+              </div>
+              {i < flow.length - 1 && (
+                <div style={{ textAlign: 'center', color: accent, fontSize: 18, lineHeight: 1 }}>↓</div>
+              )}
+            </Fragment>
+          ))}
+        </div>
+      </div>
+      <style>{`
+        @media (max-width: 860px) {
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-flow { margin-top: 8px; }
+        }
+      `}</style>
+    </section>
+  );
+};
+
+// ─── 2. PROBLEM ─────────────────────────────────────
+export const Problem = ({ py }) => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  const items = [
+    { label: '제품 강점 정리', icon: 'spark' },
+    { label: '브랜드 방향성', icon: 'compass' },
+    { label: '제품 이미지', icon: 'image' },
+    { label: '상세페이지', icon: 'doc' },
+    { label: '판매 채널', icon: 'store' },
+    { label: '광고 콘텐츠', icon: 'speaker' },
+  ];
+  return (
+    <Section id="problem" py={py}>
+      <div style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto 28px' }}>
+        <SectionLabel>The Problem</SectionLabel>
+        <SectionHeading>온라인 판매는 상품 등록만으로<br/>시작되지 않습니다.</SectionHeading>
+      </div>
+      <div style={{ maxWidth: 760, margin: '0 auto 44px', textAlign: 'center' }}>
+        <CenterP>
+          좋은 제품이 있어도 고객에게 제대로 전달되지 않으면 선택받기 어렵습니다.
+          온라인 판매를 시작하려면 제품의 강점이 정리되어야 하고, 브랜드 방향성이 보여야 하며,
+          구매를 설득하는 이미지와 상세페이지, 판매 채널, 광고 콘텐츠가 준비되어야 합니다.
+          하지만 처음 사업을 시작하거나 온라인 판매 경험이 부족한 분들이 이 모든 과정을 혼자 준비하기는 쉽지 않습니다.
+        </CenterP>
+      </div>
+      <div style={{
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 14,
+        maxWidth: 940, margin: '0 auto',
+      }}>
+        {items.map((it) => (
+          <div key={it.label} style={{
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12,
+            padding: '26px 16px', borderRadius: 12,
+            background: COLORS.surface, border: '1px solid rgba(255,255,255,0.06)', textAlign: 'center',
+          }}>
+            <div style={{
+              width: 46, height: 46, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: `${accent}14`, border: `1px solid ${accent}40`,
+            }}><Glyph name={it.icon} color={accent}/></div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: COLORS.textBase }}>{it.label}</div>
+          </div>
+        ))}
+      </div>
+      <p style={{
+        fontFamily: 'var(--font-title)', fontSize: 'clamp(20px, 2.4vw, 30px)', fontWeight: 800,
+        lineHeight: 1.4, color: COLORS.textBase, textAlign: 'center', margin: '48px auto 0', maxWidth: 760, letterSpacing: '-0.01em',
+      }}>
+        판매를 잘하려면, 먼저 <span style={{ color: accent }}>팔릴 수 있는 구조</span>가 필요합니다.
+      </p>
+    </Section>
+  );
+};
+
+// ─── 3. SOLUTION ────────────────────────────────────
+export const Solution = ({ py }) => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  const steps = [
+    { n: '1', title: '브랜드 기반 정리', desc: '제품의 강점, 타겟 고객, 판매 포인트, 브랜드 방향성을 정리합니다.' },
+    { n: '2', title: '온라인 판매 준비', desc: '제품 촬영, 상세페이지, 판매 채널 세팅, 광고 콘텐츠 제작을 준비합니다.' },
+    { n: '3', title: '판매 시작과 개선', desc: '판매를 시작하고, 고객 반응과 데이터를 바탕으로 개선 방향을 잡아갑니다.' },
+  ];
+  return (
+    <Section id="solution" py={py}>
+      <div style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto 16px' }}>
+        <SectionLabel accent>How WIBE Works</SectionLabel>
+        <SectionHeading>WIBE는 먼저 <span style={{ color: accent }}>팔릴 수 있는 구조</span>를 만듭니다.</SectionHeading>
+      </div>
+      <div style={{ maxWidth: 760, margin: '0 auto 48px', textAlign: 'center' }}>
+        <CenterP>
+          WIBE는 제품을 단순히 온라인에 올리는 것에서 시작하지 않습니다.
+          먼저 제품의 강점과 브랜드 방향성을 정리하고, 고객이 이해하고 구매할 수 있는 판매 기반을 만듭니다.
+          그 기반 위에서 촬영, 상세페이지, 판매 채널, 광고 콘텐츠를 연결하고, 실제 반응을 보며 개선해갑니다.
+        </CenterP>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+        {steps.map((s) => (
+          <Card key={s.n} hover padding={32}>
+            <div style={{
+              width: 48, height: 48, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: `${accent}1a`, border: `1px solid ${accent}55`, color: accent,
+              fontFamily: 'var(--font-title)', fontWeight: 800, fontSize: 20, marginBottom: 20,
+            }}>{s.n}</div>
+            <div style={{ fontSize: 19, fontWeight: 700, color: COLORS.textBase, marginBottom: 10 }}>{s.title}</div>
+            <div style={{ fontSize: 14, color: COLORS.textMuted, lineHeight: 1.65 }}>{s.desc}</div>
+          </Card>
+        ))}
+      </div>
+      <div style={{ textAlign: 'center', marginTop: 44 }}>
+        <PrimaryButton href="/services/">커머스 대행 서비스 자세히 보기</PrimaryButton>
+      </div>
+    </Section>
+  );
+};
+
+// ─── 4. COST COMPARISON ─────────────────────────────
+export const CostCompare = ({ py }) => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  const diy = [
+    '사무실 임대 — 월 50~100만 원',
+    '운영 인력 — 월 200만 원 이상',
+    '촬영 · 상세페이지 · 몰 세팅 — 별도 비용',
+    '콘텐츠 제작 — 별도 비용',
+  ];
+  return (
+    <Section id="cost" py={py}>
+      <div style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto 16px' }}>
+        <SectionLabel>Cost</SectionLabel>
+        <SectionHeading>브랜드 구축과 온라인 판매 준비,<br/>더 가볍게 시작하세요.</SectionHeading>
+      </div>
+      <div style={{ maxWidth: 720, margin: '0 auto 48px', textAlign: 'center' }}>
+        <CenterP>
+          처음부터 사무실을 임대하거나 직원을 채용하지 않아도 됩니다.
+          촬영, 상세페이지, 판매 채널 세팅을 각각 따로 맡길 필요도 없습니다.
+          WIBE는 브랜드 구축부터 온라인 판매 준비까지 필요한 과정을 월 고정비로 함께합니다.
+        </CenterP>
+      </div>
+      <div style={{
+        display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 20, alignItems: 'stretch',
+        maxWidth: 920, margin: '0 auto',
+      }} className="cost-grid">
+        <div style={{
+          padding: '32px 28px', borderRadius: 16,
+          background: COLORS.surface, border: '1px solid rgba(255,255,255,0.06)',
+        }}>
+          <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '1px', color: COLORS.textMuted, marginBottom: 20 }}>직접 준비하면</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {diy.map((d) => (
+              <div key={d} style={{ fontSize: 14, color: COLORS.textSubdued, textDecoration: 'line-through', lineHeight: 1.5 }}>{d}</div>
+            ))}
+          </div>
+          <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ fontFamily: 'var(--font-title)', fontSize: 'clamp(20px, 2.4vw, 26px)', fontWeight: 800, color: COLORS.textMutedBright }}>월 250만 원 이상</div>
+            <div style={{ fontSize: 13, color: COLORS.textSubdued, marginTop: 4 }}>+ 제작비 별도</div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="cost-vs">
+          <div style={{
+            width: 52, height: 52, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: COLORS.elevated, border: `1px solid ${accent}`, color: accent,
+            fontFamily: 'var(--font-title)', fontWeight: 800, fontSize: 16,
+          }}>VS</div>
+        </div>
+
+        <div style={{
+          padding: '32px 28px', borderRadius: 16,
+          background: `linear-gradient(160deg, ${accent}24, ${accent}08)`,
+          border: `1px solid ${accent}66`,
+        }}>
+          <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '1px', color: accent, marginBottom: 20 }}>WIBE와 함께하면</div>
+          <div style={{ fontFamily: 'var(--font-title)', fontSize: 'clamp(34px, 4.5vw, 52px)', fontWeight: 800, color: COLORS.textBase, lineHeight: 1, letterSpacing: '-0.02em' }}>
+            월 50~100<span style={{ fontSize: '0.5em', fontWeight: 700 }}>만 원</span>
+          </div>
+          <p style={{ fontSize: 14, color: COLORS.textMutedBright, lineHeight: 1.6, margin: '20px 0 0' }}>
+            제품만 보내주시면 브랜드 구축과 온라인 판매 준비를 함께합니다.
+          </p>
+          <div style={{
+            display: 'inline-block', marginTop: 20, padding: '6px 12px', borderRadius: 9999,
+            background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
+            fontSize: 12, fontWeight: 600, color: COLORS.textMutedBright,
+          }}>광고비는 고객 별도 부담</div>
+        </div>
+      </div>
+      <style>{`
+        @media (max-width: 760px) {
+          .cost-grid { grid-template-columns: 1fr !important; }
+          .cost-vs { padding: 4px 0 !important; }
+        }
+      `}</style>
+    </Section>
+  );
+};
+
+// ─── 5. SERVICE SUMMARY ─────────────────────────────
+export const ServiceSummary = ({ py }) => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  const cards = [
+    { icon: 'compass', title: '브랜드 방향성 정리', desc: '제품의 강점과 판매 포인트를 정리하고, 고객에게 전달될 브랜드 방향성을 잡습니다.' },
+    { icon: 'camera', title: '콘텐츠 제작', desc: '제품 촬영, 상세페이지, 썸네일, 광고 콘텐츠 등 온라인 판매에 필요한 콘텐츠를 제작합니다.' },
+    { icon: 'cart', title: '판매 채널 준비', desc: '자사몰, 스마트스토어, 쿠팡 등 제품에 맞는 판매 채널을 준비합니다.' },
+    { icon: 'growth', title: '판매 시작과 개선', desc: '광고 콘텐츠와 판매 반응을 바탕으로 개선 방향을 잡고, 더 나은 판매 구조로 확장합니다.' },
+  ];
+  return (
+    <Section id="services-summary" py={py}>
+      <div style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto 16px' }}>
+        <SectionLabel>WIBE Services</SectionLabel>
+        <SectionHeading>브랜드 구축부터 온라인 판매 준비까지<br/>함께합니다.</SectionHeading>
+      </div>
+      <div style={{ maxWidth: 680, margin: '0 auto 48px', textAlign: 'center' }}>
+        <CenterP>제품만 준비해주시면, WIBE가 온라인 판매에 필요한 과정을 하나의 흐름으로 연결합니다.</CenterP>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 16 }}>
+        {cards.map((c) => (
+          <Card key={c.title} hover padding={28}>
+            <div style={{
+              width: 46, height: 46, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: `${accent}14`, border: `1px solid ${accent}40`, marginBottom: 18,
+            }}><Glyph name={c.icon} color={accent}/></div>
+            <div style={{ fontSize: 17, fontWeight: 700, color: COLORS.textBase, marginBottom: 10, lineHeight: 1.35 }}>{c.title}</div>
+            <div style={{ fontSize: 14, color: COLORS.textMuted, lineHeight: 1.6 }}>{c.desc}</div>
+          </Card>
+        ))}
+      </div>
+      <div style={{ textAlign: 'center', marginTop: 44 }}>
+        <SecondaryButton href="/services/">서비스 소개 자세히 보기</SecondaryButton>
+      </div>
+    </Section>
+  );
+};
+
+// ─── 6. WHO IT'S FOR ────────────────────────────────
+export const WhoFor = ({ py }) => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  const cards = [
+    { title: '제품은 있지만 온라인 판매가 막막한 분', desc: '촬영, 상세페이지, 쇼핑몰 세팅, 콘텐츠 제작까지 무엇부터 준비해야 할지 어려운 분' },
+    { title: '브랜드·판매 경험이 부족한 제조사', desc: '제품 생산 능력은 있지만 온라인 판매와 브랜드 구축 경험이 부족한 제조사' },
+    { title: '오프라인에서 온라인으로 확장하려는 업체', desc: '도매, 납품, 오프라인 판매 중심에서 스마트스토어·쿠팡·자사몰로 확장하고 싶은 업체' },
+    { title: '고정비가 부담스러운 초기 사업자', desc: '처음부터 큰 고정비를 만들지 않고 브랜드와 온라인 판매를 시작하고 싶은 분' },
+    { title: '여러 외주업체를 따로 찾기 번거로운 분', desc: '촬영, 상세페이지, 쇼핑몰 세팅, 콘텐츠 제작을 각각 따로 맡기기 부담스러운 분' },
+    { title: '작게 시작해 키우고 싶은 브랜드', desc: '처음부터 큰 비용을 들이기보다 작게 실행하고, 고객 반응을 보며 개선하고 싶은 브랜드' },
+  ];
+  return (
+    <Section id="who-for" py={py}>
+      <div style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto 16px' }}>
+        <SectionLabel>Who It is For</SectionLabel>
+        <SectionHeading>이런 분들에게 추천합니다.</SectionHeading>
+      </div>
+      <div style={{ maxWidth: 680, margin: '0 auto 48px', textAlign: 'center' }}>
+        <CenterP>제품은 있지만 브랜드 구축과 온라인 판매 준비가 막막하다면 WIBE가 함께합니다.</CenterP>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 14 }}>
+        {cards.map((c) => (
+          <div key={c.title} style={{
+            display: 'flex', gap: 16, padding: '24px', borderRadius: 12,
+            background: COLORS.surface, border: '1px solid rgba(255,255,255,0.06)',
+          }}>
+            <div style={{ flexShrink: 0, color: accent, marginTop: 2 }}><Glyph name="check" color={accent}/></div>
+            <div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase, marginBottom: 6, lineHeight: 1.4 }}>{c.title}</div>
+              <div style={{ fontSize: 14, color: COLORS.textMuted, lineHeight: 1.6 }}>{c.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Section>
+  );
+};
+
+// ─── 7. GROW STEP BY STEP ───────────────────────────
+export const GrowSmall = ({ py }) => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  const loop = [
+    { n: '01', label: '작게 시작' },
+    { n: '02', label: '반응 확인' },
+    { n: '03', label: '개선' },
+    { n: '04', label: '확장' },
+  ];
+  return (
+    <Section id="grow" py={py}>
+      <div style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto 16px' }}>
+        <SectionLabel>Grow Step by Step</SectionLabel>
+        <SectionHeading>처음부터 크게<br/>시작하지 않아도 됩니다.</SectionHeading>
+      </div>
+      <div style={{ maxWidth: 720, margin: '0 auto 48px', textAlign: 'center' }}>
+        <CenterP>
+          좋은 제품도 처음부터 완벽한 브랜드가 될 필요는 없습니다.
+          WIBE는 브랜드 방향성, 상세페이지, 판매 채널, 콘텐츠를 작게 실행하며 고객 반응을 확인합니다.
+          큰 비용으로 한 번에 시작하지 않고, 실제 반응과 판매 데이터를 바탕으로 검증된 방향으로 브랜드와 판매 구조를 확장합니다.
+        </CenterP>
+      </div>
+      <div style={{
+        display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 12,
+        maxWidth: 920, margin: '0 auto',
+      }}>
+        {loop.map((s, i) => (
+          <Fragment key={s.n}>
+            <div style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
+              padding: '24px 28px', borderRadius: 14, minWidth: 132,
+              background: COLORS.surface, border: '1px solid rgba(255,255,255,0.07)',
+            }}>
+              <div style={{ fontFamily: 'var(--font-title)', fontWeight: 800, fontSize: 14, color: accent, letterSpacing: '1px' }}>{s.n}</div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase }}>{s.label}</div>
+            </div>
+            <div style={{ color: accent, fontSize: 20, lineHeight: 1 }}>{i < loop.length - 1 ? '→' : '↻'}</div>
+          </Fragment>
+        ))}
+      </div>
+      <p style={{
+        fontFamily: 'var(--font-title)', fontSize: 'clamp(20px, 2.4vw, 30px)', fontWeight: 800,
+        lineHeight: 1.4, color: COLORS.textBase, textAlign: 'center', margin: '48px auto 0', maxWidth: 800, letterSpacing: '-0.01em',
+      }}>
+        작게 시작하고, 반응을 보며, <span style={{ color: accent }}>검증된 방향으로 확장</span>합니다.
+      </p>
+    </Section>
+  );
+};
+
+// ─── 8. GLOBAL TEASER ───────────────────────────────
+export const GlobalTeaser = ({ py }) => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  return (
+    <Section id="global-teaser" py={py}>
+      <div style={{
+        position: 'relative', overflow: 'hidden',
+        padding: 'clamp(36px, 5vw, 56px)', borderRadius: 20,
+        background: `linear-gradient(135deg, ${accent}1f, rgba(255,255,255,0.02))`,
+        border: '1px solid rgba(255,255,255,0.08)',
+      }}>
+        <div style={{ maxWidth: 720 }}>
+          <SectionLabel accent>Global Expansion</SectionLabel>
+          <SectionHeading>국내 판매 이후,<br/>해외 시장까지 확장할 수 있습니다.</SectionHeading>
+          <Lead>
+            WIBE는 국내에서 브랜드와 온라인 판매 기반을 먼저 만들고, 제품 반응을 확인합니다.
+            이후 가능성이 있는 제품은 일본, 태국, 미국 등 해외 시장에 맞춰 현지화 콘텐츠, 광고, 판매 채널 전략까지 확장할 수 있습니다.
+          </Lead>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', margin: '8px 0 28px' }}>
+            {['일본', '태국', '미국'].map((c) => (
+              <span key={c} style={{
+                padding: '6px 14px', borderRadius: 9999, fontSize: 13, fontWeight: 600,
+                background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: COLORS.textMutedBright,
+              }}>{c}</span>
+            ))}
+          </div>
+          <PrimaryButton href="/global/">글로벌 마케팅 서비스 보기</PrimaryButton>
+        </div>
+      </div>
+    </Section>
+  );
+};
+
+// ─── 9. FINAL CTA ───────────────────────────────────
+export const FinalCTA = ({ py }) => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  return (
+    <Section id="final-cta" py={py}>
+      <div style={{
+        textAlign: 'center', padding: 'clamp(40px, 6vw, 72px) clamp(24px, 5vw, 56px)', borderRadius: 24,
+        background: `linear-gradient(160deg, ${accent}26, ${accent}0a)`,
+        border: `1px solid ${accent}55`,
+        maxWidth: 980, margin: '0 auto',
+      }}>
+        <h2 style={{
+          fontFamily: 'var(--font-title)', fontSize: 'clamp(26px, 3.6vw, 42px)', fontWeight: 800,
+          lineHeight: 1.25, letterSpacing: '-0.02em', color: COLORS.textBase, margin: '0 auto 20px', maxWidth: 760, textWrap: 'balance',
+        }}>
+          제품만 있다면, 브랜드 구축과<br/>온라인 판매를 시작할 수 있습니다.
+        </h2>
+        <p style={{ fontSize: 'clamp(15px, 1.5vw, 18px)', lineHeight: 1.7, color: COLORS.textMutedBright, margin: '0 auto 36px', maxWidth: 620, textWrap: 'pretty' }}>
+          처음부터 크게 시작하지 않아도 됩니다. WIBE가 제품의 강점 정리부터 촬영, 상세페이지, 판매 채널 준비, 콘텐츠 제작까지 함께합니다.
+        </p>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <PrimaryButton href="/contact/" size="lg">온라인 판매 상담하기</PrimaryButton>
+          <SecondaryButton href="/contact/" size="lg">내 제품 판매 가능성 확인하기</SecondaryButton>
+        </div>
+      </div>
+    </Section>
+  );
+};
