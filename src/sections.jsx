@@ -1384,6 +1384,11 @@ function Glyph({ name, color = 'currentColor', size = 22 }) {
     cart:    <><circle {...p} cx="9" cy="20" r="1.4"/><circle {...p} cx="17" cy="20" r="1.4"/><path {...p} d="M3 4h2l2.2 11h10l2-7H6"/></>,
     growth:  <><path {...p} d="M4 19h16M6 16l4-5 3 3 5-7"/><path {...p} d="M17 7h3v3"/></>,
     check:   <path {...p} d="M5 12l4 4L19 6"/>,
+    globe:   <><circle {...p} cx="12" cy="12" r="9"/><path {...p} d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></>,
+    box:     <><path {...p} d="M12 3l8 4v10l-8 4-8-4V7z"/><path {...p} d="M4 7l8 4 8-4M12 11v10"/></>,
+    gear:    <><circle {...p} cx="12" cy="12" r="3.2"/><path {...p} d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/></>,
+    pin:     <><path {...p} d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle {...p} cx="12" cy="11" r="2.2"/></>,
+    chat:    <path {...p} d="M21 14a2 2 0 0 1-2 2H8l-4 4V6a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/>,
   };
   return <svg width={size} height={size} viewBox="0 0 24 24">{inner[name]}</svg>;
 }
@@ -1847,6 +1852,109 @@ export const FinalCTA = ({ py }) => {
           <PrimaryButton href="/contact/" size="lg">온라인 판매 상담하기</PrimaryButton>
           <SecondaryButton href="/contact/" size="lg">내 제품 판매 가능성 확인하기</SecondaryButton>
         </div>
+      </div>
+    </Section>
+  );
+};
+
+// ════════════════════════════════════════════════════════════
+// COMMERCE-AGENCY SERVICE PAGE (/services) — replaces the old overseas
+// Services/Process. Section 1: 10-item service grid. Section 2: 6-step process.
+// Follows the client's 서비스 소개 guide. Old `Services`/`Process` exports above
+// are now unused (kept defined, tree-shaken).
+// ════════════════════════════════════════════════════════════
+
+// ─── SERVICE LIST (서비스 소개 §1) ───────────────────
+export const CommerceServices = () => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  const services = [
+    { icon: 'compass', title: '브랜드 방향성 정리', desc: '제품의 강점, 타겟 고객, 판매 포인트를 정리하고 브랜드 방향성을 잡습니다.' },
+    { icon: 'camera', title: '제품 촬영', desc: '상세페이지, 썸네일, 광고 콘텐츠에 활용할 제품 이미지를 촬영합니다.' },
+    { icon: 'doc', title: '상세페이지 제작', desc: '제품의 장점과 구매 포인트가 잘 전달되도록 상세페이지를 제작합니다.' },
+    { icon: 'globe', title: '자사몰 개설 및 운영', desc: '브랜드에 맞는 자사몰 구축과 기본 운영을 지원합니다.' },
+    { icon: 'store', title: '스마트스토어 입점', desc: '네이버 스마트스토어 세팅과 상품 등록을 지원합니다.' },
+    { icon: 'box', title: '쿠팡 입점', desc: '쿠팡 입점, 상품 등록, 기본 판매 준비를 지원합니다.' },
+    { icon: 'speaker', title: '광고 콘텐츠 제작', desc: 'Meta·Google·Naver 등 광고에 활용할 이미지와 콘텐츠를 제작합니다.' },
+    { icon: 'gear', title: '광고 세팅', desc: '광고 계정과 캠페인 구조를 세팅하고 초기 광고 준비를 지원합니다.', note: '광고비는 고객 별도 부담' },
+    { icon: 'pin', title: '미팅 공간 제공', desc: '사무실을 임대하지 않아도 미팅과 상담이 가능한 공간을 제공합니다.' },
+    { icon: 'chat', title: '제품 피드백', desc: '가격·구성·상세페이지·브랜드 메시지·광고 방향에 대한 피드백을 제공합니다.' },
+  ];
+  return (
+    <Section id="service">
+      <div style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto 16px' }}>
+        <SectionLabel accent>What We Do</SectionLabel>
+        <SectionHeading>브랜드 구축부터 온라인 판매 준비까지<br/>함께합니다.</SectionHeading>
+      </div>
+      <div style={{ maxWidth: 680, margin: '0 auto 48px', textAlign: 'center' }}>
+        <CenterP max={680}>제품만 준비해주시면, 온라인 판매에 필요한 실무를 하나의 흐름으로 연결해 실행합니다.</CenterP>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+        {services.map((s) => (
+          <Card key={s.title} hover padding={28}>
+            <div style={{
+              width: 46, height: 46, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: `${accent}14`, border: `1px solid ${accent}40`, marginBottom: 18,
+            }}><Glyph name={s.icon} color={accent}/></div>
+            <div style={{ fontSize: 17, fontWeight: 700, color: COLORS.textBase, marginBottom: 10, lineHeight: 1.35 }}>{s.title}</div>
+            <div style={{ fontSize: 14, color: COLORS.textMuted, lineHeight: 1.6 }}>{s.desc}</div>
+            {s.note && (
+              <div style={{
+                display: 'inline-block', marginTop: 14, padding: '4px 10px', borderRadius: 9999,
+                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                fontSize: 11, fontWeight: 600, color: COLORS.textMutedBright,
+              }}>{s.note}</div>
+            )}
+          </Card>
+        ))}
+      </div>
+    </Section>
+  );
+};
+
+// ─── PROCESS (서비스 소개 §2) ────────────────────────
+export const CommerceProcess = () => {
+  const t = useTweak();
+  const accent = t.accentColor || COLORS.green;
+  const steps = [
+    { n: '1', icon: 'chat', title: '제품 상담', desc: '제품의 특징, 판매 목표, 현재 준비 상태를 확인합니다.' },
+    { n: '2', icon: 'compass', title: '브랜드 방향성 정리', desc: '제품의 강점, 타겟 고객, 판매 포인트, 브랜드 메시지를 정리합니다.' },
+    { n: '3', icon: 'camera', title: '촬영·콘텐츠 제작', desc: '제품 촬영, 썸네일, 상세페이지 이미지, 광고 콘텐츠를 제작합니다.' },
+    { n: '4', icon: 'store', title: '판매 채널 세팅', desc: '자사몰, 스마트스토어, 쿠팡 등 제품에 맞는 판매 채널을 세팅합니다.' },
+    { n: '5', icon: 'gear', title: '광고 준비', desc: '광고 콘텐츠와 광고 세팅을 준비합니다.' },
+    { n: '6', icon: 'growth', title: '판매 시작', desc: '온라인 판매를 시작하고, 반응을 보며 개선 방향을 제안합니다.', highlight: true },
+  ];
+  return (
+    <Section id="process" bg="alt">
+      <div style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto 16px' }}>
+        <SectionLabel>Process</SectionLabel>
+        <SectionHeading>진행 방식은 간단합니다.</SectionHeading>
+      </div>
+      <div style={{ maxWidth: 680, margin: '0 auto 48px', textAlign: 'center' }}>
+        <CenterP max={680}>고객은 제품만 준비하세요. 브랜드 구축과 판매 준비는 WIBE가 함께합니다.</CenterP>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 14 }}>
+        {steps.map((s) => (
+          <div key={s.n} style={{
+            position: 'relative',
+            padding: '26px 22px', borderRadius: 14,
+            background: s.highlight ? `linear-gradient(160deg, ${accent}26, ${accent}0c)` : COLORS.surface,
+            border: s.highlight ? `1px solid ${accent}77` : '1px solid rgba(255,255,255,0.06)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: s.highlight ? accent : `${accent}1a`, border: s.highlight ? 'none' : `1px solid ${accent}55`,
+              }}><Glyph name={s.icon} color={s.highlight ? '#000' : accent} size={20}/></div>
+              <div style={{
+                fontFamily: 'var(--font-title)', fontSize: 12, fontWeight: 800, letterSpacing: '1.5px',
+                color: s.highlight ? accent : COLORS.textSubdued,
+              }}>STEP {s.n}</div>
+            </div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase, marginBottom: 8, lineHeight: 1.35 }}>{s.title}</div>
+            <div style={{ fontSize: 13, color: COLORS.textMuted, lineHeight: 1.6 }}>{s.desc}</div>
+          </div>
+        ))}
       </div>
     </Section>
   );
