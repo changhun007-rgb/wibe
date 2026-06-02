@@ -14,7 +14,6 @@ const NAV = [
   { href: '/about/',    label: '회사 소개',    short: '회사 소개',    match: (p) => p.startsWith('/about') },
   { href: '/services/', label: '커머스 운영 대행', short: '커머스 운영 대행', match: (p) => p.startsWith('/services') },
   { href: '/global/',   label: '글로벌 마케팅', short: '글로벌 마케팅', match: (p) => p.startsWith('/global') },
-  { href: '/contact/',  label: '문의하기',     short: '문의하기',     match: (p) => p.startsWith('/contact') },
 ];
 
 export const Nav = () => {
@@ -24,6 +23,8 @@ export const Nav = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+  // CTA scrolls to the on-page form where one exists (home, /global); else jumps to the home commerce form.
+  const ctaHref = (path === '/' || path === '' || path.startsWith('/global')) ? '#contact' : '/#contact';
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -58,7 +59,7 @@ export const Nav = () => {
         </a>
 
         <nav className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          {NAV.slice(0, -1).map((n) => {
+          {NAV.map((n) => {
             const active = isActive(n);
             return (
               <a key={n.href} href={n.href} style={{
@@ -74,7 +75,7 @@ export const Nav = () => {
             );
           })}
           <div style={{ marginLeft: 8 }}>
-            <PrimaryButton href="/contact/">상담 신청하기</PrimaryButton>
+            <PrimaryButton href={ctaHref}>상담 신청하기</PrimaryButton>
           </div>
         </nav>
 
@@ -111,7 +112,7 @@ export const Nav = () => {
             );
           })}
           <div style={{ marginTop: 16 }}>
-            <PrimaryButton href="/contact/">상담 신청하기</PrimaryButton>
+            <PrimaryButton href={ctaHref}>상담 신청하기</PrimaryButton>
           </div>
         </div>
       )}
@@ -966,9 +967,35 @@ const Field = ({ label, children }) => (
   </label>
 );
 
-export const Contact = ({ py }) => {
+export const Contact = ({ py, variant = 'overseas' }) => {
+  // Two contextual variants so each page's bottom form fits its service.
+  const COPY = {
+    commerce: {
+      title: <>제품만 있다면, 지금<br/>커머스 운영을 시작할 수 있습니다</>,
+      leads: [
+        '제품촬영, 상세페이지, SNS·블로그 콘텐츠, 광고, 판매 채널 운영까지 — 온라인 판매에 필요한 실무를 함께 실행합니다.',
+        '현재 제품이 어떤 채널에 맞는지, 무엇부터 준비하면 좋을지, 월 고정비로 어떻게 시작할 수 있는지 함께 검토해드립니다.',
+      ],
+      closer: <>사무실·직원 없이, <span style={{ color: COLORS.green }}>외부 커머스팀처럼 함께 시작하세요.</span></>,
+      selectLabel: '관심 서비스',
+      selectOptions: ['커머스 운영 종합', '자사몰 구축·운영', '스마트스토어 입점', '쿠팡 입점', '콘텐츠·광고 제작', '아직 검토 중'],
+      messagePlaceholder: '현재 제품 상황과 온라인 판매에 관해 궁금한 점을 적어주세요',
+    },
+    overseas: {
+      title: <>해외 진출, 어디서부터<br/>시작해야 할지 고민이라면</>,
+      leads: [
+        '국내에서 커머스 운영 기반을 만든 뒤, 일본을 시작으로 해외 시장의 새로운 기회를 만들어볼 수 있습니다.',
+        '현재 제품이 해외 시장에 적합한지, 어떤 방식으로 광고를 시작해야 하는지, 어느 정도의 예산으로 테스트할 수 있는지 함께 검토해드립니다.',
+      ],
+      closer: <>작게 테스트하고, 빠르게 확인하고,<br/><span style={{ color: COLORS.green }}>가능성이 보이면 더 넓은 시장으로 확장하세요.</span></>,
+      selectLabel: '진출 희망 국가',
+      selectOptions: ['일본', '일본 + 태국', '일본 + 미국', '아직 검토 중'],
+      messagePlaceholder: '해외 진출에 관한 현재 상황과 궁금한 점을 적어주세요',
+    },
+  };
+  const c = COPY[variant] || COPY.overseas;
   const [form, setForm] = useState({
-    company: '', name: '', phone: '', email: '', country: '일본', product: '', message: '',
+    company: '', name: '', phone: '', email: '', country: c.selectOptions[0], product: '', message: '',
     consent: false,
   });
   const [status, setStatus] = useState('idle'); // idle | sending | success | error
@@ -1055,24 +1082,15 @@ export const Contact = ({ py }) => {
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.1fr)', gap: 56, alignItems: 'start' }} className="two-col">
         <div>
           <SectionLabel accent>Contact</SectionLabel>
-          <SectionHeading>해외 진출, 어디서부터<br/>시작해야 할지 고민이라면</SectionHeading>
-          <Lead>
-            국내 시장만으로 성장의 한계를 느끼고 있다면,
-            이제 일본을 시작으로 새로운 기회를 만들어볼 수 있습니다.
-          </Lead>
-          <Lead>
-            현재 제품과 서비스가 일본 시장에 적합한지,
-            어떤 방식으로 광고를 시작해야 하는지,
-            어느 정도의 예산으로 테스트할 수 있는지 함께 검토해드립니다.
-          </Lead>
+          <SectionHeading>{c.title}</SectionHeading>
+          {c.leads.map((l, i) => (<Lead key={i}>{l}</Lead>))}
 
           <div style={{ marginTop: 32, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
             <p style={{
               fontFamily: 'var(--font-title)', fontSize: 'clamp(18px, 2vw, 22px)',
               fontWeight: 700, lineHeight: 1.5, color: COLORS.textBase, margin: 0,
             }}>
-              작게 테스트하고, 빠르게 확인하고,<br/>
-              <span style={{ color: COLORS.green }}>가능성이 보이면 더 넓은 시장으로 확장하세요.</span>
+              {c.closer}
             </p>
           </div>
         </div>
@@ -1099,12 +1117,11 @@ export const Contact = ({ py }) => {
                 <Field label="연락처"><input style={inputStyle} value={form.phone} onChange={onChange('phone')} placeholder="010-0000-0000"/></Field>
                 <Field label="이메일"><input type="email" style={inputStyle} value={form.email} onChange={onChange('email')} placeholder="you@company.com" required/></Field>
               </div>
-              <Field label="진출 희망 국가">
+              <Field label={c.selectLabel}>
                 <select style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1l5 5 5-5' stroke='%23b3b3b3' stroke-width='1.5'/></svg>")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center', paddingRight: 40 }} value={form.country} onChange={onChange('country')}>
-                  <option style={{ background: COLORS.elevated }}>일본</option>
-                  <option style={{ background: COLORS.elevated }}>일본 + 태국</option>
-                  <option style={{ background: COLORS.elevated }}>일본 + 미국</option>
-                  <option style={{ background: COLORS.elevated }}>아직 검토 중</option>
+                  {c.selectOptions.map((o) => (
+                    <option key={o} style={{ background: COLORS.elevated }}>{o}</option>
+                  ))}
                 </select>
               </Field>
               <div style={{ height: 12 }}/>
@@ -1113,7 +1130,7 @@ export const Contact = ({ py }) => {
               </Field>
               <div style={{ height: 12 }}/>
               <Field label="현재 고민 또는 요청사항">
-                <textarea rows="4" style={{ ...inputStyle, resize: 'vertical', minHeight: 100 }} value={form.message} onChange={onChange('message')} placeholder="해외 진출에 관한 현재 상황과 궁금한 점을 적어주세요"/>
+                <textarea rows="4" style={{ ...inputStyle, resize: 'vertical', minHeight: 100 }} value={form.message} onChange={onChange('message')} placeholder={c.messagePlaceholder}/>
               </Field>
 
               <label style={{
@@ -1227,7 +1244,7 @@ export const PageCTA = ({ heading, sub }) => (
       <SectionHeading>{heading || '더 자세히 알고 싶으시면'}</SectionHeading>
       {sub && <Lead>{sub}</Lead>}
       <div style={{ marginTop: 32, display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
-        <PrimaryButton href="/contact/" size="lg">상담 문의하기</PrimaryButton>
+        <PrimaryButton href="/#contact" size="lg">상담 문의하기</PrimaryButton>
         <SecondaryButton href="/services/" size="lg">서비스 보기</SecondaryButton>
       </div>
     </div>
@@ -1346,7 +1363,7 @@ export const Footer = () => (
           <a href="/about/" style={{ color: COLORS.textMuted }}>회사 소개</a>
           <a href="/services/" style={{ color: COLORS.textMuted }}>커머스 운영 대행</a>
           <a href="/global/" style={{ color: COLORS.textMuted }}>글로벌 마케팅</a>
-          <a href="/contact/" style={{ color: COLORS.textMuted }}>문의하기</a>
+          <a href="/#contact" style={{ color: COLORS.textMuted }}>상담 문의</a>
           <a href="/privacy/" style={{ color: COLORS.textBase, fontWeight: 600 }}>개인정보 처리방침</a>
         </div>
       </div>
@@ -1458,7 +1475,7 @@ export const CommerceHero = () => {
             <span>월 고정비로 시작하는 커머스 운영</span>
           </div>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <PrimaryButton href="/contact/" size="lg">커머스 운영 상담하기</PrimaryButton>
+            <PrimaryButton href="#contact" size="lg">커머스 운영 상담하기</PrimaryButton>
           </div>
         </div>
 

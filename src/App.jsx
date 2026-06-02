@@ -1,14 +1,12 @@
 import Layout from './Layout.jsx';
 import {
   CommerceHero, Problem, Solution, CostCompare, ServiceSummary,
-  WhoFor, StrategySetup, GrowSmall, GlobalTeaser, FinalCTA,
+  WhoFor, StrategySetup, GrowSmall, GlobalTeaser, Contact,
 } from './sections.jsx';
 
-// Home = commerce-OPERATIONS-agency landing (2026-06 revision). Message: WIBE
-// runs ongoing e-commerce operations like an outsourced commerce team — NOT a
-// brand-launch shop. Ten sections flowing as one canvas: hero → problem →
-// solution → cost → services → who-for → strategy setup → grow → global teaser
-// → final CTA. Deep service detail on /services, overseas on /global.
+// Home = commerce-OPERATIONS landing. Ends with its own contextual consultation
+// form (variant="commerce") instead of routing to a shared /contact page —
+// overseas inquiries live on the /global page's own form.
 export default function App() {
   return (
     <Layout>
@@ -21,7 +19,7 @@ export default function App() {
       <StrategySetup py={100}/>
       <GrowSmall py={100}/>
       <GlobalTeaser py={88}/>
-      <FinalCTA py={104}/>
+      <Contact variant="commerce" py={104}/>
     </Layout>
   );
 }

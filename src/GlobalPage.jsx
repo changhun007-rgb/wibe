@@ -1,6 +1,6 @@
 import Layout from './Layout.jsx';
 import {
-  PageHero, GlobalPhilosophy, MarketBackground, WhyJapan, GlobalExpansion, PageCTA,
+  PageHero, GlobalPhilosophy, MarketBackground, WhyJapan, GlobalExpansion, Contact,
 } from './sections.jsx';
 
 export default function GlobalPage() {
@@ -15,10 +15,7 @@ export default function GlobalPage() {
       <MarketBackground/>
       <WhyJapan/>
       <GlobalExpansion/>
-      <PageCTA
-        heading="우리 제품이 일본에 맞을지 함께 검토해드립니다"
-        sub="제품·서비스의 일본 시장 적합도와 예상 진출 방향을 함께 짚어드려요."
-      />
+      <Contact variant="overseas" py={100}/>
     </Layout>
   );
 }
