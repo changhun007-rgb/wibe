@@ -1425,29 +1425,40 @@ export const CommerceHero = () => {
           <SectionLabel accent>Commerce Operations Partner</SectionLabel>
           <h1 style={{
             fontFamily: 'var(--font-title)',
-            fontSize: `clamp(${32 * titleScale}px, ${4.8 * titleScale}vw, ${56 * titleScale}px)`,
-            fontWeight: 800, lineHeight: 1.18, letterSpacing: '-0.03em',
-            margin: '0 0 24px', textWrap: 'balance',
+            fontSize: `clamp(${28 * titleScale}px, ${4 * titleScale}vw, ${46 * titleScale}px)`,
+            fontWeight: 800, lineHeight: 1.2, letterSpacing: '-0.03em',
+            margin: '0 0 20px', textWrap: 'balance',
           }}>
-            이커머스 진출부터 <span style={{ color: accent }}>운영</span>까지,<br/>
-            <span style={{ color: accent }}>외부 커머스팀</span>처럼 함께합니다.
+            이커머스 <span style={{ color: accent }}>런칭·운영</span> 파트너십<br/>
+            커머스 대행사
           </h1>
           <p style={{
-            fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: 1.75,
-            color: COLORS.textMutedBright, margin: '0 0 20px', maxWidth: 560, textWrap: 'pretty',
+            fontFamily: 'var(--font-title)',
+            fontSize: 'clamp(18px, 2vw, 24px)', fontWeight: 700, lineHeight: 1.4,
+            color: COLORS.textBase, margin: '0 0 16px', letterSpacing: '-0.01em', textWrap: 'balance',
           }}>
-            WIBE는 소규모 창업자, 1인 사업자, 제조사, 초기 브랜드가 온라인 판매를 시작하고 운영할 수 있도록 돕는 커머스 대행사입니다.
-            제품촬영, 상세페이지 제작, SNS 운영, 블로그 콘텐츠, 광고 콘텐츠 제작, 광고 세팅, 판매 채널 운영까지 온라인 판매에 필요한 실무를 함께 실행합니다.
+            제품을 브랜드로 만들고, 온라인 판매까지 연결합니다.
           </p>
           <p style={{
-            borderLeft: `2px solid ${accent}`, paddingLeft: 14, margin: '0 0 32px',
-            fontSize: 14, lineHeight: 1.6, color: COLORS.textMuted, maxWidth: 540,
+            fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: 1.75,
+            color: COLORS.textMutedBright, margin: '0 0 28px', maxWidth: 540, textWrap: 'pretty',
           }}>
-            필요한 경우 제품의 강점과 브랜드 방향성까지 함께 정리해, 더 안정적인 커머스 운영 기반을 만듭니다.
+            WIBE는 소규모 창업자, 1인 사업자, 제조사, 초기 브랜드가 온라인 판매를 시작하고 운영할 수 있도록 돕는 커머스 대행사입니다.
           </p>
+          <div style={{
+            display: 'inline-flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px 12px',
+            padding: '12px 18px', marginBottom: 32, borderRadius: 10,
+            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)',
+            fontSize: 13, fontWeight: 600, color: COLORS.textBase,
+          }}>
+            <span>사무실 없이</span>
+            <span style={{ color: accent }}>·</span>
+            <span>직원 채용 없이</span>
+            <span style={{ color: accent }}>·</span>
+            <span>월 고정비로 시작하는 커머스 운영</span>
+          </div>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <PrimaryButton href="/contact/" size="lg">커머스 운영 상담하기</PrimaryButton>
-            <SecondaryButton href="/contact/" size="lg">내 제품 판매 가능성 확인하기</SecondaryButton>
           </div>
         </div>
 
@@ -1508,10 +1519,8 @@ export const Problem = ({ py }) => {
       </div>
       <div style={{ maxWidth: 760, margin: '0 auto 44px', textAlign: 'center' }}>
         <CenterP>
-          온라인 판매는 상품을 등록하는 것만으로 끝나지 않습니다.
-          제품 사진을 준비해야 하고, 상세페이지를 만들고, SNS와 블로그 콘텐츠를 꾸준히 운영해야 하며,
-          광고 콘텐츠를 제작하고 판매 채널을 관리해야 합니다.
-          처음 이커머스에 진출하는 소규모 창업자, 1인 사업자, 제조사에게 이 모든 운영 업무를 혼자 처리하는 것은 쉽지 않습니다.
+          제품촬영, 상세페이지 제작, SNS 운영, 블로그 콘텐츠, 광고 콘텐츠 제작, 판매 채널 관리까지.
+          처음 이커머스에 진출하는 소규모 사업자, 1인 창업자, 제조사에게 이런 운영 업무를 직접 처리하는 것은 쉽지 않습니다.
         </CenterP>
       </div>
       <div style={{
@@ -1555,13 +1564,13 @@ export const Solution = ({ py }) => {
     <Section id="solution" py={py}>
       <div style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto 16px' }}>
         <SectionLabel accent>How WIBE Works</SectionLabel>
-        <SectionHeading>WIBE는 <span style={{ color: accent }}>온라인 판매 운영</span>에 필요한<br/>실무를 함께 실행합니다.</SectionHeading>
+        <SectionHeading>WIBE는 <span style={{ color: accent }}>커머스 운영</span>에 필요한<br/>실무를 함께 실행합니다.</SectionHeading>
       </div>
       <div style={{ maxWidth: 760, margin: '0 auto 48px', textAlign: 'center' }}>
         <CenterP>
-          WIBE는 제품을 단순히 온라인에 올리는 것에서 끝내지 않습니다.
-          제품의 강점과 판매 방향을 정리하고, 제품촬영, 상세페이지 제작, SNS 운영, 블로그 콘텐츠 작성, 광고 콘텐츠 제작, 광고 세팅, 판매 채널 운영까지 온라인 판매에 필요한 과정을 하나의 흐름으로 연결합니다.
-          고객은 제품과 기본 방향을 준비하고, WIBE는 외부 커머스팀처럼 운영 실무를 함께합니다.
+          저희는 단순히 제품을 등록하고 판매하는 것이 아니라,
+          브랜드의 방향성을 정립하고 촬영, 상세페이지, 콘텐츠, SNS 채널 운영, 광고 세팅까지
+          온라인 판매에 필요한 모든 과정을 하나의 흐름으로 연결해 브랜드의 성장과 판매를 촉진합니다.
         </CenterP>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
