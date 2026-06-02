@@ -1727,16 +1727,13 @@ export const WhoFor = ({ py }) => {
       <div style={{ maxWidth: 680, margin: '0 auto 48px', textAlign: 'center' }}>
         <CenterP>제품은 있지만 이커머스 운영을 직접 하기 어렵다면 WIBE가 함께합니다.</CenterP>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 14 }}>
-        {cards.map((c) => (
-          <div key={c.title} style={{
-            padding: '24px 26px', borderRadius: 12,
-            background: COLORS.surface, border: '1px solid rgba(255,255,255,0.06)',
-            borderLeft: `3px solid ${accent}`,
-          }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase, marginBottom: 6, lineHeight: 1.4 }}>{c.title}</div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
+        {cards.map((c, i) => (
+          <Card key={c.title} hover padding={28}>
+            <div style={{ fontFamily: 'var(--font-title)', fontSize: 13, fontWeight: 800, color: accent, letterSpacing: '1.5px', marginBottom: 14 }}>{String(i + 1).padStart(2, '0')}</div>
+            <div style={{ fontSize: 16.5, fontWeight: 700, color: COLORS.textBase, marginBottom: 8, lineHeight: 1.4 }}>{c.title}</div>
             <div style={{ fontSize: 14, color: COLORS.textMuted, lineHeight: 1.6 }}>{c.desc}</div>
-          </div>
+          </Card>
         ))}
       </div>
     </Section>
@@ -1793,45 +1790,33 @@ export const GrowSmall = ({ py }) => {
 };
 
 // ─── 8. GLOBAL TEASER ───────────────────────────────
-// Flat full-width band (NOT a filled box): reads as a light bridge into the
-// deep /global page, and avoids stacking as a second box right before the
-// FinalCTA box. Text left, CTA right on desktop; stacks on mobile.
+// Centered, flat section (NO box) — matches the centered rhythm of the other
+// home sections, and reads as a light bridge into the deep /global page rather
+// than a second box before the FinalCTA box.
 export const GlobalTeaser = ({ py }) => {
   const t = useTweak();
   const accent = t.accentColor || COLORS.green;
   return (
     <Section id="global-teaser" py={py}>
-      <div style={{
-        display: 'grid', gridTemplateColumns: '1fr auto', gap: 'clamp(24px, 4vw, 56px)',
-        alignItems: 'center',
-        paddingTop: 'clamp(28px, 4vw, 44px)',
-        borderTop: '1px solid rgba(255,255,255,0.1)',
-      }} className="global-band">
-        <div>
-          <SectionLabel accent>Global Expansion</SectionLabel>
-          <SectionHeading>국내 운영 이후,<br/>해외 시장까지 확장할 수 있습니다.</SectionHeading>
-          <Lead>
+      <div style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto' }}>
+        <SectionLabel accent>Global Expansion</SectionLabel>
+        <SectionHeading>국내 운영 이후,<br/>해외 시장까지 확장할 수 있습니다.</SectionHeading>
+        <div style={{ marginBottom: 28 }}>
+          <CenterP>
             WIBE는 국내에서 커머스 운영 기반을 만들고 제품 반응을 확인한 뒤, 가능성이 있는 제품은 해외 시장까지 확장할 수 있도록 돕습니다.
             일본, 태국, 미국 등 시장에 맞춘 현지화 콘텐츠, 해외 광고, 판매 채널 전략은 글로벌 마케팅 메뉴에서 자세히 확인할 수 있습니다.
-          </Lead>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 4 }}>
-            {['일본', '태국', '미국'].map((c) => (
-              <span key={c} style={{
-                padding: '6px 14px', borderRadius: 9999, fontSize: 13, fontWeight: 600,
-                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', color: COLORS.textMutedBright,
-              }}>{c}</span>
-            ))}
-          </div>
+          </CenterP>
         </div>
-        <div style={{ flexShrink: 0 }} className="global-cta">
-          <PrimaryButton href="/global/">글로벌 마케팅 서비스 보기</PrimaryButton>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 28 }}>
+          {['일본', '태국', '미국'].map((c) => (
+            <span key={c} style={{
+              padding: '6px 14px', borderRadius: 9999, fontSize: 13, fontWeight: 600,
+              background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', color: COLORS.textMutedBright,
+            }}>{c}</span>
+          ))}
         </div>
+        <PrimaryButton href="/global/">글로벌 마케팅 서비스 보기</PrimaryButton>
       </div>
-      <style>{`
-        @media (max-width: 760px) {
-          .global-band { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </Section>
   );
 };
@@ -1859,7 +1844,6 @@ export const FinalCTA = ({ py }) => {
         </p>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
           <PrimaryButton href="/contact/" size="lg">커머스 운영 상담하기</PrimaryButton>
-          <SecondaryButton href="/contact/" size="lg">내 제품 판매 가능성 확인하기</SecondaryButton>
         </div>
       </div>
     </Section>
