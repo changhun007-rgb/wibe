@@ -1463,27 +1463,22 @@ export const CommerceHero = () => {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} className="hero-flow">
-          {flow.map((f, i) => (
-            <Fragment key={f.label}>
+          {flow.map((f) => (
+            <div key={f.label} style={{
+              display: 'flex', alignItems: 'center', gap: 16,
+              padding: '16px 18px', borderRadius: 12,
+              background: COLORS.surface, border: '1px solid rgba(255,255,255,0.07)',
+            }}>
               <div style={{
-                display: 'flex', alignItems: 'center', gap: 16,
-                padding: '14px 18px', borderRadius: 12,
-                background: COLORS.surface, border: '1px solid rgba(255,255,255,0.07)',
-              }}>
-                <div style={{
-                  flexShrink: 0, width: 40, height: 40, borderRadius: 10,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: `${accent}1a`, border: `1px solid ${accent}55`,
-                }}><Glyph name={f.icon} color={accent} size={20}/></div>
-                <div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: COLORS.textBase, marginBottom: 2 }}>{f.label}</div>
-                  <div style={{ fontSize: 12.5, color: COLORS.textMuted, lineHeight: 1.5 }}>{f.desc}</div>
-                </div>
+                flexShrink: 0, width: 40, height: 40, borderRadius: 10,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: `${accent}1a`, border: `1px solid ${accent}55`,
+              }}><Glyph name={f.icon} color={accent} size={20}/></div>
+              <div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: COLORS.textBase, marginBottom: 2 }}>{f.label}</div>
+                <div style={{ fontSize: 12.5, color: COLORS.textMuted, lineHeight: 1.5 }}>{f.desc}</div>
               </div>
-              {i < flow.length - 1 && (
-                <div style={{ textAlign: 'center', color: accent, fontSize: 15, lineHeight: 1 }}>↓</div>
-              )}
-            </Fragment>
+            </div>
           ))}
         </div>
       </div>
@@ -1735,14 +1730,12 @@ export const WhoFor = ({ py }) => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 14 }}>
         {cards.map((c) => (
           <div key={c.title} style={{
-            display: 'flex', gap: 16, padding: '24px', borderRadius: 12,
+            padding: '24px 26px', borderRadius: 12,
             background: COLORS.surface, border: '1px solid rgba(255,255,255,0.06)',
+            borderLeft: `3px solid ${accent}`,
           }}>
-            <div style={{ flexShrink: 0, color: accent, marginTop: 2 }}><Glyph name="check" color={accent}/></div>
-            <div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase, marginBottom: 6, lineHeight: 1.4 }}>{c.title}</div>
-              <div style={{ fontSize: 14, color: COLORS.textMuted, lineHeight: 1.6 }}>{c.desc}</div>
-            </div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase, marginBottom: 6, lineHeight: 1.4 }}>{c.title}</div>
+            <div style={{ fontSize: 14, color: COLORS.textMuted, lineHeight: 1.6 }}>{c.desc}</div>
           </div>
         ))}
       </div>
@@ -1778,18 +1771,15 @@ export const GrowSmall = ({ py }) => {
         display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 12,
         maxWidth: 920, margin: '0 auto',
       }}>
-        {loop.map((s, i) => (
-          <Fragment key={s.n}>
-            <div style={{
-              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
-              padding: '24px 28px', borderRadius: 14, minWidth: 132,
-              background: COLORS.surface, border: '1px solid rgba(255,255,255,0.07)',
-            }}>
-              <div style={{ fontFamily: 'var(--font-title)', fontWeight: 800, fontSize: 14, color: accent, letterSpacing: '1px' }}>{s.n}</div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase }}>{s.label}</div>
-            </div>
-            <div style={{ color: accent, fontSize: 20, lineHeight: 1 }}>{i < loop.length - 1 ? '→' : '↻'}</div>
-          </Fragment>
+        {loop.map((s) => (
+          <div key={s.n} style={{
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
+            padding: '24px 28px', borderRadius: 14, minWidth: 132,
+            background: COLORS.surface, border: '1px solid rgba(255,255,255,0.07)',
+          }}>
+            <div style={{ fontFamily: 'var(--font-title)', fontWeight: 800, fontSize: 14, color: accent, letterSpacing: '1px' }}>{s.n}</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase }}>{s.label}</div>
+          </div>
         ))}
       </div>
       <p style={{
@@ -1803,35 +1793,45 @@ export const GrowSmall = ({ py }) => {
 };
 
 // ─── 8. GLOBAL TEASER ───────────────────────────────
+// Flat full-width band (NOT a filled box): reads as a light bridge into the
+// deep /global page, and avoids stacking as a second box right before the
+// FinalCTA box. Text left, CTA right on desktop; stacks on mobile.
 export const GlobalTeaser = ({ py }) => {
   const t = useTweak();
   const accent = t.accentColor || COLORS.green;
   return (
     <Section id="global-teaser" py={py}>
       <div style={{
-        position: 'relative', overflow: 'hidden',
-        padding: 'clamp(36px, 5vw, 56px)', borderRadius: 20,
-        background: `linear-gradient(135deg, ${accent}1f, rgba(255,255,255,0.02))`,
-        border: '1px solid rgba(255,255,255,0.08)',
-      }}>
-        <div style={{ maxWidth: 720 }}>
+        display: 'grid', gridTemplateColumns: '1fr auto', gap: 'clamp(24px, 4vw, 56px)',
+        alignItems: 'center',
+        paddingTop: 'clamp(28px, 4vw, 44px)',
+        borderTop: '1px solid rgba(255,255,255,0.1)',
+      }} className="global-band">
+        <div>
           <SectionLabel accent>Global Expansion</SectionLabel>
           <SectionHeading>국내 운영 이후,<br/>해외 시장까지 확장할 수 있습니다.</SectionHeading>
           <Lead>
             WIBE는 국내에서 커머스 운영 기반을 만들고 제품 반응을 확인한 뒤, 가능성이 있는 제품은 해외 시장까지 확장할 수 있도록 돕습니다.
             일본, 태국, 미국 등 시장에 맞춘 현지화 콘텐츠, 해외 광고, 판매 채널 전략은 글로벌 마케팅 메뉴에서 자세히 확인할 수 있습니다.
           </Lead>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', margin: '8px 0 28px' }}>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 4 }}>
             {['일본', '태국', '미국'].map((c) => (
               <span key={c} style={{
                 padding: '6px 14px', borderRadius: 9999, fontSize: 13, fontWeight: 600,
-                background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: COLORS.textMutedBright,
+                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', color: COLORS.textMutedBright,
               }}>{c}</span>
             ))}
           </div>
+        </div>
+        <div style={{ flexShrink: 0 }} className="global-cta">
           <PrimaryButton href="/global/">글로벌 마케팅 서비스 보기</PrimaryButton>
         </div>
       </div>
+      <style>{`
+        @media (max-width: 760px) {
+          .global-band { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </Section>
   );
 };
@@ -1998,25 +1998,22 @@ export const StrategySetup = ({ py }) => {
         display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 14,
         maxWidth: 820, margin: '0 auto',
       }}>
-        {flow.map((f, i) => (
-          <Fragment key={f.label}>
+        {flow.map((f) => (
+          <div key={f.label} style={{
+            display: 'flex', alignItems: 'center', gap: 14,
+            padding: '20px 26px', borderRadius: 14, minWidth: 200,
+            background: COLORS.surface, border: '1px solid rgba(255,255,255,0.07)',
+          }}>
             <div style={{
-              display: 'flex', alignItems: 'center', gap: 14,
-              padding: '20px 26px', borderRadius: 14, minWidth: 200,
-              background: COLORS.surface, border: '1px solid rgba(255,255,255,0.07)',
-            }}>
-              <div style={{
-                flexShrink: 0, width: 42, height: 42, borderRadius: 11,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: `${accent}1a`, border: `1px solid ${accent}55`,
-              }}><Glyph name={f.icon} color={accent} size={20}/></div>
-              <div style={{ textAlign: 'left' }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase }}>{f.label}</div>
-                <div style={{ fontSize: 12.5, color: COLORS.textMuted, lineHeight: 1.5 }}>{f.desc}</div>
-              </div>
+              flexShrink: 0, width: 42, height: 42, borderRadius: 11,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: `${accent}1a`, border: `1px solid ${accent}55`,
+            }}><Glyph name={f.icon} color={accent} size={20}/></div>
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.textBase }}>{f.label}</div>
+              <div style={{ fontSize: 12.5, color: COLORS.textMuted, lineHeight: 1.5 }}>{f.desc}</div>
             </div>
-            {i < flow.length - 1 && <div style={{ color: accent, fontSize: 20, lineHeight: 1 }}>→</div>}
-          </Fragment>
+          </div>
         ))}
       </div>
       <p style={{
